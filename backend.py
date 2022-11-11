@@ -19,7 +19,6 @@ def _set_sqlite_pragma(dbapi_connection, connection_record):
         
 db = SQLAlchemy(app)
 now = datetime.now()
-print(amelie)
 
 
 class Tweet(db.Model):
@@ -43,7 +42,7 @@ class User(db.Model):
 #......
 @app.route("/api/users", methods=["GET", "POST", "DELETE"])
 def users():
-   
+    return
 
  
 @app.route("/")
@@ -57,4 +56,3 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()
     app.run(debug=True, host = "localhost", port = int("5000"))
-
