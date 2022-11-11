@@ -19,6 +19,7 @@ def _set_sqlite_pragma(dbapi_connection, connection_record):
         
 db = SQLAlchemy(app)
 now = datetime.now()
+print(amelie)
 
 
 class Tweet(db.Model):
