@@ -34,15 +34,39 @@ class User(db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(24))
-    email = db.Column(db.String(50))
-    password = db.Column(db.String(50))
+    email = db.Column(db.String(64))
+    password = db.Column(db.String(64))
     tweets = db.relationship("Tweet", cascade="all, delete")
 
-
-#......
 @app.route("/api/users", methods=["GET", "POST", "DELETE"])
-def users():
-    return
+def users(user_id = 0):
+    if request.method == 'GET':
+        users = User.query.all()
+        all_users_ll = []*len(users) #autre data structure?
+        for user in users:
+            all_users_ll[user.id] = {
+                'id':user.id,
+                'username':user.username,
+                'email':user.email,
+                'password':user.password
+                }
+        user = all_users_ll[user_id]
+        return jsonify(user), 200
+    if request.method == 'POST':
+        data = request.get_json()
+        new_user = User(
+                name = data['username'],
+                email = data['email'],
+                password = data['password']
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        return jsonify({"message": "User created"}), 200
+    if request.method == 'DELETE':
+        user = User.query.filter_by(id = user_id),first()
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify({}), 200
 
  
 @app.route("/")
