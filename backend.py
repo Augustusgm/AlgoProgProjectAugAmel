@@ -77,16 +77,17 @@ def users(user_id = 0):
         return jsonify({}), 200
 
 @app.route("/api/tweets", methods=["GET", "POST", "DELETE"])
-def users(tweet_id = 0):
+def tweets(tweet_id = 0):
     if request.method == 'GET':
         tweets = Tweet.query.all()
         all_tweets = []*len(tweets) #autre data structure?
         for tweet in tweets:
             all_tweets[tweet.id] = {
-                'id' = data.id,
-                'uid' = data.uid, 
-                'title' = data.title,
-                'content' = data.content
+                'id':tweet.id,
+                'uid':tweet.uid, 
+                'title':tweet.title,
+                'content':tweet.content,
+                'date':tweet.date
                 }
         tweet = tweets[tweet_id]
         return jsonify(tweet), 200
