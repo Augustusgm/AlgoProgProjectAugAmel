@@ -1,0 +1,19 @@
+header
+{
+     background: dodgerblue;
+     height: 80px;
+     width: 100%;
+     margin: 0;
+     padding: 10px;
+}
+
+h1 {
+  color: red;
+}
+.box {
+  width: 1700px;
+  height: 150px;
+  margin: 50px;
+  padding: 25px;
+  border: 5px solid black;
+}

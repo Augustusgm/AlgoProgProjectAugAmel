@@ -1,7 +1,8 @@
-from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from sqlite3 import Connection as SQLite3Connection
 from datetime import datetime
+from sqlite3 import Connection as SQLite3Connection
+
+from flask import Flask, jsonify, request, render_template
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 
@@ -41,7 +42,7 @@ class User(db.Model):
 @app.route("/api/users", methods=["GET", "POST", "DELETE"])
 def users(user_id = 0):
     if request.method == 'GET':
-        users = User.query.all()
+        users = User.query.all() #
         all_users_ll = []*len(users) #autre data structure?
         for user in users:
             all_users_ll[user.id] = {
@@ -72,7 +73,7 @@ def users(user_id = 0):
 @app.route("/")
 def home():
     #print(db.sesion)
-    return "<h1>API Running</h1>"
+    return render_template("tweeter.html")
 
 
 if __name__ == "__main__":
