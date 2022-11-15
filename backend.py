@@ -52,6 +52,7 @@ def users(user_id = 0):
                 }
         user = all_users_ll[user_id]
         return jsonify(user), 200
+    #alternative data structure: hashmap gives complexity average in O(1            )
     if request.method == 'POST':
         data = request.get_json()
         new_user = User(
