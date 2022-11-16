@@ -1,8 +1,7 @@
-from datetime import datetime
-from sqlite3 import Connection as SQLite3Connection
-
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from sqlite3 import Connection as SQLite3Connection
+from datetime import datetime
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 
@@ -37,6 +36,7 @@ class User(db.Model):
     username = db.Column(db.String(24))
     email = db.Column(db.String(64))
     password = db.Column(db.String(64))
+    followers = db.Column(db.Set)
     tweets = db.relationship("Tweet", cascade="all, delete")
     
 '''class Followers(db.Model):
@@ -49,14 +49,15 @@ class User(db.Model):
 @app.route("/api/users", methods=["GET", "POST", "DELETE"])
 def users(user_id = 0):
     if request.method == 'GET':
-        users = User.query.all() #
+        users = User.query.all()
         all_users_ll = []*len(users) #autre data structure?
         for user in users:
             all_users_ll[user.id] = {
                 'id':user.id,
                 'username':user.username,
                 'email':user.email,
-                'password':user.password
+                'password':user.password, 
+                'followers':user.followers
                 }
         user = all_users_ll[user_id]
         return jsonify(user), 200
@@ -66,7 +67,8 @@ def users(user_id = 0):
         new_user = User(
                 name = data['username'],
                 email = data['email'],
-                password = data['password']
+                password = data['password'],
+                follows= {}
         )
         db.session.add(new_user)
         db.session.commit()
@@ -76,6 +78,15 @@ def users(user_id = 0):
         db.session.delete(user)
         db.session.commit()
         return jsonify({}), 200
+    
+@app.route("/api/users/follows", methods=["GET", "POST", "DELETE"])
+def follows(user_id, follows):
+    if request.method == 'GET':#We will use a hashmap in the form of python sets to get fast access in average O(1)
+        pass
+    if request.method == 'POST':
+        pass
+    if request.method == 'DELETE':
+        pass
 
 @app.route("/api/tweets", methods=["GET", "POST", "DELETE"])
 def tweets(tweet_id = 0):
@@ -112,7 +123,7 @@ def tweets(tweet_id = 0):
 @app.route("/")
 def home():
     #print(db.sesion)
-    return render_template("tweeter.html")
+    return "<h1>API Running</h1>"
 
 
 if __name__ == "__main__":
