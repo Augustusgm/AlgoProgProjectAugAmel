@@ -1,7 +1,8 @@
-from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
-from sqlite3 import Connection as SQLite3Connection
 from datetime import datetime
+from sqlite3 import Connection as SQLite3Connection
+
+from flask import Flask, jsonify, request
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import event
 from sqlalchemy.engine import Engine
 
@@ -36,7 +37,7 @@ class User(db.Model):
     username = db.Column(db.String(24))
     email = db.Column(db.String(64))
     password = db.Column(db.String(64))
-    followers = db.Column(db.Set)
+    '''followers = db.Column(db.Set)'''
     tweets = db.relationship("Tweet", cascade="all, delete")
     
 '''class Followers(db.Model):
@@ -131,3 +132,13 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()
     app.run(debug=True, host = "localhost", port = int("5000"))
+    
+    
+def create_app():
+    # existing code omitted
+    from . import db
+    db.init_app(app)
+    from . import relie
+    app.register_blueprint(relie.bp)
+
+    return app
