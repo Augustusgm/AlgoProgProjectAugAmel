@@ -1,7 +1,7 @@
 from . import db
 from flask import Blueprint, jsonify, request
 
-data = Blueprint('data', __name__)
+db = Blueprint('db', __name__)
 
 class User(db.Model):
     __tablename__ = "user"
@@ -19,7 +19,7 @@ class Tweet(db.Model):
     content = db.Column(db.String(2048))
     date = db.Column(db.Date)
     
-@data.route("/users", methods=["GET", "POST", "DELETE"])
+@db.route("/users", methods=["GET", "POST", "DELETE"])
 def users(user_id = 0):
     if request.method == 'GET':
         users = User.query.all()
@@ -52,7 +52,7 @@ def users(user_id = 0):
         db.session.commit()
         return jsonify({}), 200
     
-@data.route("/api/users/follows", methods=["GET", "POST", "DELETE"])
+@db.route("/api/users/follows", methods=["GET", "POST", "DELETE"])
 def follows(user_id, follows):
     if request.method == 'GET':#We will use a hashmap in the form of python sets to get fast access in average O(1)
         pass
@@ -63,7 +63,7 @@ def follows(user_id, follows):
     
     
     
-data.route("/api/tweets", methods=["GET", "POST", "DELETE"])
+@db.route("/api/tweets", methods=["GET", "POST", "DELETE"])
 def tweets(tweet_id = 0):
     if request.method == 'GET':
         tweets = Tweet.query.all()
