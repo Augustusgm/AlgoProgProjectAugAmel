@@ -38,8 +38,8 @@ def init_db_command():
 class User(db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(24))
-    email = db.Column(db.String(64))
+    username = db.Column(db.String(24), unique=True)
+    email = db.Column(db.String(64), unique=True)
     password = db.Column(db.String(64))
     tweets = db.relationship("Tweet", cascade="all, delete")
     
@@ -83,7 +83,8 @@ def users(user_id = 0):
         db.session.delete(user)
         db.session.commit()
         return jsonify({}), 200
-    
+
+        
 @model.route("/api/users/follows", methods=["GET", "POST", "DELETE"])
 def follows(user_id, follows):
     if request.method == 'GET':#We will use a hashmap in the form of python sets to get fast access in average O(1)

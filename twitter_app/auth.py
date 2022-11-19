@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import Blueprint, render_template, redirect, url_for, request, current_app
+from . import models
 
 auth = Blueprint('auth', __name__)
 
@@ -11,6 +12,32 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        email = request.form['email']
+        register_dict = {
+            'username' : username,
+            'password' : password,
+            'email' : email,
+            }
+        error = None
+        if not username:
+            error = 'Username is required.'
+        elif not password:
+            error = 'Password is required.'
+        if not email:
+            error = 'email is required.'
+            
+        if error is None:
+            try:
+                resp = request.post('model/users', register_dict)
+            except resp.DoesNotExist:
+                error = f"User {username} is already registered."
+            else:
+                return redirect(url_for("auth.login"))
+
+        flash(error)
+
+
+
 
     return render_template('register.html')
 
