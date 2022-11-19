@@ -61,19 +61,18 @@ def users(user_id = 0):
                 'id':user.id,
                 'username':user.username,
                 'email':user.email,
-                'password':user.password, 
-                'followers':user.followers
+                'password':user.password
                 }
         user = all_users_ll[user_id]
         return jsonify(user), 200
     #alternative data structure: hashmap gives complexity average in O(1            )
     if request.method == 'POST':
-        data = request.get_json()
+        data = request.get_json(force=True)
+        print('data :', data)
         new_user = User(
                 name = data['username'],
                 email = data['email'],
-                password = data['password'],
-                follows= {}
+                password = data['password']
         )
         db.session.add(new_user)
         db.session.commit()
