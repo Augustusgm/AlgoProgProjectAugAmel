@@ -30,3 +30,4 @@ def signup_post():
 def login_post():
     # login code goes here
     return redirect(url_for('main.profile'))
+
