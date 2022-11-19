@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, request
 
 auth = Blueprint('auth', __name__)
 
@@ -6,8 +6,12 @@ auth = Blueprint('auth', __name__)
 def login():
     return render_template('login.html')
 
-@auth.route('/register')
-def signup():
+@auth.route('/register', methods=('GET', 'POST'))
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
     return render_template('register.html')
 
 @auth.route('/logout')
