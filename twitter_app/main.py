@@ -11,6 +11,6 @@ def profile():
     return render_template('profile.html')
 
 @main.route('/tweet')
-def tweet_post():
+def tweet():
     # login code goes here
     return render_template('tweet.html')
