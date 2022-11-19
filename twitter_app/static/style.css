@@ -1,12 +1,31 @@
 
 .head1
 {
-     background: dodgerblue;
-     height: 80px;
-     width: 100%;
-     margin: 0;
-     padding: 10px;
+    background: dodgerblue;
+    height: 80px;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
 
+
+}
+
+.bouton1
+{ 
+  font-size : 15px;
+  font-weight: normal;
+  color: white;
+  position: absolute;
+  left : 90%;
+}
+
+.bouton2
+{ 
+  font-size : 15px;
+  font-weight: normal;
+  color: white;
+  position: absolute;
+  left : 95%;
 }
 
 
