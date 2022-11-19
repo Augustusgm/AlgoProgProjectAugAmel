@@ -10,3 +10,6 @@ git add backend.py
 git commit -m "ce que jai changé"
 git push
 
+initialize database si pas présent: ```flask --app twitter_app init-db```
+
+run application in debug: ```flask --app twitter_app --debug run```
