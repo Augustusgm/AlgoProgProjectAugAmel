@@ -1,8 +1,40 @@
+from flask import Blueprint, jsonify, request, current_app, g
+import click
+import sqlite3
+from flask_sqlalchemy import SQLAlchemy
 from . import db
-from flask import Blueprint, jsonify, request
+model = Blueprint('model', __name__)
 
-db = Blueprint('db', __name__)
 
+def get_db():
+    if 'db' not in g:
+        g.db = db
+
+    return g.db
+
+
+def close_db(e=None):
+    db = g.pop('db', None)
+
+    if db is not None:
+        db.session.close()
+        
+def init_db():
+    db = get_db()
+    with current_app.app_context():
+        db.create_all()
+
+def init_appp(app):
+    app.teardown_appcontext(close_db)
+    app.cli.add_command(init_db_command)
+
+@click.command('init-db')
+def init_db_command():
+    """Clear the existing data and create new tables."""
+    init_db()
+    click.echo('Initialized the database.')
+    
+           
 class User(db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
@@ -19,7 +51,7 @@ class Tweet(db.Model):
     content = db.Column(db.String(2048))
     date = db.Column(db.Date)
     
-@db.route("/users", methods=["GET", "POST", "DELETE"])
+@model.route("/users", methods=["GET", "POST", "DELETE"])
 def users(user_id = 0):
     if request.method == 'GET':
         users = User.query.all()
@@ -52,7 +84,7 @@ def users(user_id = 0):
         db.session.commit()
         return jsonify({}), 200
     
-@db.route("/api/users/follows", methods=["GET", "POST", "DELETE"])
+@model.route("/api/users/follows", methods=["GET", "POST", "DELETE"])
 def follows(user_id, follows):
     if request.method == 'GET':#We will use a hashmap in the form of python sets to get fast access in average O(1)
         pass
@@ -63,7 +95,7 @@ def follows(user_id, follows):
     
     
     
-@db.route("/api/tweets", methods=["GET", "POST", "DELETE"])
+@model.route("/api/tweets", methods=["GET", "POST", "DELETE"])
 def tweets(tweet_id = 0):
     if request.method == 'GET':
         tweets = Tweet.query.all()
