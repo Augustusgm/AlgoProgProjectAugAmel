@@ -1,19 +1,84 @@
-header
+
+.head1
 {
      background: dodgerblue;
      height: 80px;
      width: 100%;
      margin: 0;
      padding: 10px;
+
 }
 
-h1 {
-  color: red;
+
+.p1
+{
+  font-size : 30px;
+  font-weight: normal;
+  color: white;
+  text-align: center;
 }
+
 .box {
-  width: 1700px;
-  height: 150px;
+  width: 90%;
+  height: 30%;
   margin: 50px;
-  padding: 25px;
-  border: 5px solid black;
+  padding: 0;
+  border: 1px solid black;
 }
+
+.head2
+{
+     background: dodgerblue;
+     height: 10%;
+     width: 100%;
+     margin: 0;
+     padding: 0;
+
+}
+
+.button
+{   
+    font-size : 15px;
+    font-weight: normal;
+    color: white;
+    text-align: right;
+    margin: 4px 2px;
+  
+}
+
+
+
+ /* Full-width inputs */
+ .input[type=text] {
+  width: 10%;
+  padding:50px;
+  margin: 15px;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+ }
+ 
+ .input[type=password] {
+  width: 40%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+ }
+ 
+ /* Set a style for all buttons */
+ .input[type=submit] {
+  background-color: #53af57;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+ }
+ .input[type=submit]:hover {
+  background-color: white;
+  color: #53af57;
+  border: 1px solid #53af57;
+ }
