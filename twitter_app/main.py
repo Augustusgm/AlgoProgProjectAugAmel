@@ -9,3 +9,8 @@ def index():
 @main.route('/profile')
 def profile():
     return render_template('profile.html')
+
+@main.route('/tweet')
+def tweet_post():
+    # login code goes here
+    return render_template('tweet.html')
