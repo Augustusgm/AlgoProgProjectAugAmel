@@ -28,6 +28,13 @@
   left : 95%;
 }
 
+.indent
+{
+  font-size: 35px;
+  font-weight: bold;
+  text-indent : 5%;
+}
+
 
 .p1
 {
