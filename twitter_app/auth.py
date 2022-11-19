@@ -33,7 +33,7 @@ def register_post():
         #else:
         #return redirect(url_for("auth.login"))
 
-        #flash(error)
+        #wflash(error)
         return render_template('register.html')
         
 @auth.route('/logout')
