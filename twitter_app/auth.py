@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, redirect, url_for, request, current_app, flash, g
+from flask import Blueprint, render_template, redirect, url_for,session, request, current_app, flash, g
 from . import model
 from . import db
 from .model import User
+import functools
 import requests
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -23,8 +24,8 @@ def login_post():
     if not user or not check_password_hash(user.password, password):
         flash('Username/email or password not registered.')
         return redirect(url_for('auth.login'))
-    db.session.clear()
-    db.session['user_id'] = user['id']
+    session.clear()
+    session['user_id'] = user['id']
 
     return redirect(url_for('main.profile'))
 
@@ -53,12 +54,12 @@ def register_post():
         
 @auth.route('/logout')
 def logout():
-    db.session.clear()
+    session.clear()
     return redirect(url_for('index'))
 
 @auth.before_app_request
 def load_logged_in_user():
-    user_id = db.session.get('user_id')
+    user_id = session.get('user_id')
 
     if user_id is None:
         g.user = None
