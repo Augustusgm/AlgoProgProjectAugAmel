@@ -78,7 +78,7 @@ def users(user_id = 0):
         db.session.commit()
         return jsonify({"message": "User created"}), 200
     if request.method == 'DELETE':
-        user = User.query.filter_by(id = user_id),first()
+        user = User.query.filter_by(id = user_id).first()
         db.session.delete(user)
         db.session.commit()
         return jsonify({}), 200
@@ -122,7 +122,7 @@ def tweets(tweet_id = 0):
         db.session.commit()
         return jsonify({"message": "Tweet posted"}), 200
     if request.method == 'DELETE':
-        tweet = Tweet.query.filter_by(id = tweet_id),first()
+        tweet = Tweet.query.filter_by(id = tweet_id).first()
         db.session.delete(tweet)
         db.session.commit()
         return jsonify({}), 200
