@@ -33,19 +33,15 @@
 
 
 
-{% for tweet in tweets %}t['body'] </p>
-</article>
+{% for tweet in tweets %}</p>
   <article class="tweet">
     <header>
       <div>
         <h1>{{ tweet['title'] }}</h1>
-        <div class="about">by {{ tweet['username'] }} on {{ tweet['created'].strftime('%Y-%m-%d') }}</div>
+        <div class="about">by {{ tweet.uid }} </div>
       </div>
-      {% if g.user['id'] == tweet['author_id'] %}
-        <a class="action" href="{{ url_for('blog.update', id=post['id']) }}">Edit</a>
-      {% endif %}
     </header>
-    <p class="body">{{ tweet['body'] }}</p>
+    <p class="body">{{ tweet.content }}</p>
   </article>
   {% if not loop.last %}
     <hr>
