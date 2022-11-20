@@ -15,7 +15,14 @@ def profile():
     tweets = Tweet.query.filter_by(uid = g.user.username).order_by(Tweet.id.desc()).all()
     return render_template('profile.html', name=g.user.username, tweets = tweets)
 
-@main.route('/tweet')
+@main.route('/tweet', methods=('GET', 'POST'))
+@login_required
 def tweet():
-    # login code goes here
-    return render_template('tweet.html')
+    if request.method == 'POST':
+        title = request.form['title']
+        content = request.form['content']
+        new_tweet = Tweet(title=title, content=content, uid = g.user.id )
+
+        db.session.add(new_tweet)
+        db.session.commit()
+    return render_template("main.index")
