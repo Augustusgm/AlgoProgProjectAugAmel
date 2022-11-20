@@ -11,8 +11,8 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///twitter.sqlite'
 
     db.init_app(app)
-    from . import models
-    models.init_appp(app)
+    from . import model
+    model.init_appp(app)
 
     # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint
@@ -22,7 +22,7 @@ def create_app():
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
     
-    from .models import model as model_blueprint
+    from .model import model as model_blueprint
     app.register_blueprint(model_blueprint)
 
     return app
