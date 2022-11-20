@@ -31,12 +31,19 @@
             <p class="p1"> REGISTER </p>   
         </div>
         <form method="post">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div class="notification is-danger">
+                    {{ messages[0] }} Go to <a href="{{ url_for('auth.login') }}">login page</a>.
+                </div>
+            {% endif %}
+            {% endwith %}
             <label for="username">Username</label><br>
             <input name="username" value="{{ request.form['username'] }}"></input><br><br>
             <label for="email">Email</label><br>
             <input name="email" value="{{ request.form['email'] }}"></input><br><br>
             <label for="password">Password</label><br>
-            <input type="password" name="password" value="{{ request.form['password'] }}"></input><br><br>
+            <input type="password" name="password" id="password" required value="{{ request.form['password'] }}"><br><br>
             <input type="submit" value="Register" onclick="self.location.href='profile'">
         </form>
     </div>

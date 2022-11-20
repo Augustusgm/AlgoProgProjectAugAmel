@@ -30,7 +30,14 @@
         <div class="head2">
             <p class="p1"> LOGIN </p>   
         </div>
-        <form method="post">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="/login">
             <label for="email">Email</label><br>
             <input name="email" id="email" required><br><br>
             <label for="password">Password</label><br>
