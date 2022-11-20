@@ -28,14 +28,14 @@
 
     <div class="box"> 
         <div class="head2">
-            <p class="p1"> LOGIN </p>   
+            <p class="p1"> New Tweet </p>   
         </div>
         <form method="post">
-            <label for="email">Email</label><br>
-            <input name="email" id="email" required><br>
-            <label for="password">Password</label><br>
-            <input type="password" name="password" id="password" required><br>
-            <a href="{{ url_for('auth.login') }}"  > <input type="submit" value="LOGIN"> </a>
+            <label for="title">Title</label>
+            <input name="title" id="title" value="{{ request.form['title'] }}" required><br>
+            <label for="content">Content</label><br>
+            <input name="content" id="content" value="{{ request.form['content'] }}" >
+            <input type="submit" value="Save">
         </form>
     </div>
 </body>

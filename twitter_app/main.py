@@ -32,4 +32,4 @@ def tweet_post():
 
         db.session.add(new_tweet)
         db.session.commit()
-    return render_template("main.index")
+    return redirect(url_for('main.index'))
