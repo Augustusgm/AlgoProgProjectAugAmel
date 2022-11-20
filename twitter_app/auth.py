@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, current_app, flash
+from flask import Blueprint, render_template, redirect, url_for, request, current_app, flash, g
 from . import model
 from . import db
 from .model import User
@@ -53,5 +53,24 @@ def register_post():
         
 @auth.route('/logout')
 def logout():
-    return render_template('logout.html')
+    db.session.clear()
+    return redirect(url_for('index'))
 
+@auth.before_app_request
+def load_logged_in_user():
+    user_id = db.session.get('user_id')
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = User.query.filter_by(uid=user_id).first()
+        
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+
+        return view(**kwargs)
+
+    return wrapped_view
