@@ -20,12 +20,13 @@ def login_post():
     user = User.query.filter_by(email=email).first()
     if not user:
         user = User.query.filter_by(username=email).first()
+    print(user)
     
     if not user or not check_password_hash(user.password, password):
         flash('Username/email or password not registered.')
         return redirect(url_for('auth.login'))
     session.clear()
-    session['user_id'] = user['id']
+    session['user_id'] = user.id
 
     return redirect(url_for('main.profile'))
 
@@ -64,7 +65,7 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = User.query.filter_by(uid=user_id).first()
+        g.user = User.query.filter_by(id=user_id).first()
         
 def login_required(view):
     @functools.wraps(view)
