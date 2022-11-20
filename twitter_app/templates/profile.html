@@ -6,12 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    <h1 class="title">
-        Bienvenue, {{ name }}
-    </h1>
+    <title> Profile </title>
 </head>
 
 <body>
+    <div class="head1">
+        <table>
+            <tr>
+                <td> <img src="{{ url_for('static', filename='t.png') }}" width="15%" alt="twitter logo"> </td>
+                <td> <a href="{{ url_for('main.tweet') }}"  > 
+                    <p class="bouton1"> Feed </p></a>
+                </td>
+                <td> <a href="{{ url_for('auth.logout') }}"  > 
+                    <p class="bouton2"> Log-out </p></a> 
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+<h1 class="title">
+        Welcome, {{ name }}
+</h1>
+<p class="indent"> My Tweets </p>
 <p>Soon your tweets will be available</p>
 <div class="box">tweets inoming</div>
 </body>
