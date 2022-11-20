@@ -26,14 +26,16 @@
     <p class="indent"> Creation Tweets </p>
     
 
-    <div class="box">   
+    <div class="box"> 
+        <div class="head2">
+            <p class="p1"> New Tweet </p>   
+        </div>
         <form method="post">
-            <br>
-            <label for="title">Title</label><br>
-            <input name="title" id="title" value="{{ request.form['title'] }}" required><br><br>
+            <label for="title">Title</label>
+            <input name="title" id="title" value="{{ request.form['title'] }}" required><br>
             <label for="content">Content</label><br>
-            <input name="content" id="content" value="{{ request.form['content'] }}" ><br><br>
-            <input type="submit" value="Send">
+            <input name="content" id="content" value="{{ request.form['content'] }}" >
+            <input type="submit" value="Save">
         </form>
     </div>
 </body>
