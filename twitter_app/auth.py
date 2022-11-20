@@ -56,7 +56,7 @@ def register_post():
 @auth.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
 @auth.before_app_request
 def load_logged_in_user():
