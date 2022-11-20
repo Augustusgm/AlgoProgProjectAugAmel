@@ -55,9 +55,3 @@ def register_post():
 def logout():
     return render_template('logout.html')
 
-
-
-@auth.route('/login', methods=['POST'])
-def login_post():
-    # login code goes here
-    return redirect(url_for('main.profile'))
