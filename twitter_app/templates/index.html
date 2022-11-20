@@ -34,18 +34,15 @@
 
 
 {% for tweet in tweets %}</p>
-  <article class="tweet">
+  <article class="box">
     <header>
       <div>
         <h1>{{ tweet['title'] }}</h1>
-        <div class="about">by {{ tweet.uid }} </div>
       </div>
     </header>
     <p class="body">{{ tweet.content }}</p>
+    <div class="about">by {{ tweet.uid }} </div>
   </article>
-  {% if not loop.last %}
-    <hr>
-  {% endif %}
 {% endfor %}
 
     
