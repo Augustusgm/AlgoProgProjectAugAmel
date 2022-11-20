@@ -13,11 +13,17 @@ def index():
 @login_required
 def profile():
     tweets = Tweet.query.filter_by(uid = g.user.username).order_by(Tweet.id.desc()).all()
-    return render_template('profile.html', name=g.user.username, tweets = tweets)
+    return render_template('profile.html', name=g.user.username, tweets = tweets)@main.route('/tweet', methods=('GET', 'POST'))
+
+@main.route('/tweet')
+@login_required
+def tweet():
+    return render_template("tweet.html")
+
 
 @main.route('/tweet', methods=('GET', 'POST'))
 @login_required
-def tweet():
+def tweet_post():
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
