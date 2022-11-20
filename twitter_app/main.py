@@ -1,12 +1,12 @@
 from flask import Blueprint, render_template, Blueprint, render_template, redirect, url_for,session, request, current_app, flash, g
 from .auth import login_required
-from . import model
+from .model import User, Tweet
 from . import db
 main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    tweets = model.Tweet.query.all.desc()
+    tweets = Tweet.query.order_by(Tweet.id.desc()).all()
     return render_template('index.html', tweets = tweets)
 
 @main.route('/profile')
