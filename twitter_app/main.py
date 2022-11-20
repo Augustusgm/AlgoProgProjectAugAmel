@@ -12,6 +12,7 @@ def index():
 @main.route('/profile')
 @login_required
 def profile():
+    tweets = Tweet.query.order_by(Tweet.id.desc()).all()
     return render_template('profile.html', name=g.user.username)
 
 @main.route('/tweet')
