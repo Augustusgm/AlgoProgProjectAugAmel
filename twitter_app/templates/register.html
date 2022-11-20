@@ -39,12 +39,12 @@
             {% endwith %}
             <form method="POST" action="/register">
             <label for="username">Username</label><br>
-            <input name="username" id="username" required value="{{ request.form['username'] }}"><br><br>
+            <input name="username" value="{{ request.form['username'] }}"></input><br><br>
             <label for="email">Email</label><br>
-            <input name="email" id="email" required value="{{ request.form['email'] }}"><br><br>
+            <input name="email" value="{{ request.form['email'] }}"></input><br><br>
             <label for="password">Password</label><br>
             <input type="password" name="password" id="password" required value="{{ request.form['password'] }}"><br><br>
-            <input type="submit" value="Register" onclick="self.location.href='login'">
+            <input type="submit" value="Register" onclick="self.location.href='profile'">
         </form>
     </div>
 </body>
