@@ -6,7 +6,7 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
-    tweets = model.Tweet.query.all.last(100)
+    tweets = model.Tweet.query.all.desc()
     return render_template('index.html', tweets = tweets)
 
 @main.route('/profile')
