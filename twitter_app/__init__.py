@@ -1,9 +1,11 @@
 import os
-from flask import Flask
+from flask import Flask, session
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
-# init SQLAlchemy so we can use it later in our models
+global user_mail
+user_mail = {}
+
 def create_app():
     app = Flask(__name__)
 
@@ -13,6 +15,10 @@ def create_app():
     db.init_app(app)
     from . import model
     model.init_appp(app)
+    
+    with app.app_context():
+        model.init_user_mail(user_mail)
+        
 
     # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint

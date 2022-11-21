@@ -20,8 +20,6 @@ def login_post():
     user = User.query.filter_by(email=email).first()
     if not user:
         user = User.query.filter_by(username=email).first()
-    print(user)
-    
     if not user or not check_password_hash(user.password, password):
         flash('Username/email or password not registered.')
         return redirect(url_for('auth.login'))
@@ -42,6 +40,8 @@ def register_post():
         email = request.form['email']
         
         user = User.query.filter_by(email=email).first()
+        if not user:
+            user = User.query.filter_by(username=username).first()
         if user: 
             error = f"User {username} or email {email} is already registered."
             flash(error)

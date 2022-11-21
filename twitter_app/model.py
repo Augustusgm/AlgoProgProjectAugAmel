@@ -6,6 +6,8 @@ from . import db
 model = Blueprint('model', __name__)
 
 
+     
+   
 def get_db():
     if 'db' not in g:
         g.db = db
@@ -23,10 +25,16 @@ def init_db():
     db = get_db()
     with current_app.app_context():
         db.create_all()
+    
 
 def init_appp(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+    
+def init_user_mail(user_mail):
+        user = User.query.all()
+        for u in user:
+            user_mail[u.username] =  u.email
 
 @click.command('init-db')
 def init_db_command():
@@ -50,7 +58,8 @@ class Tweet(db.Model):
     title = db.Column(db.String(256))
     content = db.Column(db.String(2048))
     date = db.Column(db.Date)
-    
+ 
+  
 @model.route("/users", methods=["GET", "POST", "DELETE"])
 def users(user_id = 0):
     if request.method == 'GET':
@@ -126,3 +135,6 @@ def tweets(tweet_id = 0):
         db.session.delete(tweet)
         db.session.commit()
         return jsonify({}), 200
+    
+#hashtable containing username and  emails:
+
