@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for,session, request, current_app, flash, g
 from . import model
 from . import db
+from . import user_mail
 from .model import User
 import functools
 import requests
@@ -48,7 +49,7 @@ def register_post():
             return redirect(url_for('auth.register'))
 
         new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256'))
-
+        model.update_user_mail(user_mail, username, email)
         db.session.add(new_user)
         db.session.commit()
         return render_template('login.html')

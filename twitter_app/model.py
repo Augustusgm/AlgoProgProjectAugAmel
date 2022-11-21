@@ -35,6 +35,9 @@ def init_user_mail(user_mail):
         user = User.query.all()
         for u in user:
             user_mail[u.username] =  u.email
+            
+def update_user_mail(user_mail, username, email):
+        user_mail[username] =  email
 
 @click.command('init-db')
 def init_db_command():
