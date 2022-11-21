@@ -3,10 +3,34 @@ import click
 import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 from . import db
+import networkx as nx
+from os.path import exists
+
 model = Blueprint('model', __name__)
 
 
-     
+
+class User(db.Model):
+    __tablename__ = "user"
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(24), unique=True)
+    email = db.Column(db.String(64), unique=True)
+    password = db.Column(db.String(64))
+    tweets = db.relationship("Tweet", cascade="all, delete")
+    
+class Tweet(db.Model):
+    __tablename__ = "tweet"
+    id = db.Column(db.Integer, primary_key=True)
+    uid = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    title = db.Column(db.String(256))
+    content = db.Column(db.String(2048))
+    date = db.Column(db.Date)
+    
+class Follow(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    uid1 = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    uid2 = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    
    
 def get_db():
     if 'db' not in g:
@@ -32,13 +56,24 @@ def init_appp(app):
     app.cli.add_command(init_db_command)
     
 def init_user_mail(user_mail):
-        user = User.query.all()
+    if exists('instance/twitter.sqlite') :
+        user = User.query.with_entities(User.username,User.email).all()
         for u in user:
             user_mail[u.username] =  u.email
             
 def update_user_mail(user_mail, username, email):
         user_mail[username] =  email
-
+        
+def init_follow_graph(graph):
+    if exists('instance/twitter.sqlite') :
+        fol = Follow.query.with_entities(Follow.uid1,Follow.uid2).all()
+        graph.add_edges_from(fol)
+    
+    
+def update_follow_graph(graph, uid1, uid2):
+    graph.add_edge(uid1,uid2)
+    
+    
 @click.command('init-db')
 def init_db_command():
     """Clear the existing data and create new tables."""
@@ -46,21 +81,6 @@ def init_db_command():
     click.echo('Initialized the database.')
     
            
-class User(db.Model):
-    __tablename__ = "user"
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(24), unique=True)
-    email = db.Column(db.String(64), unique=True)
-    password = db.Column(db.String(64))
-    tweets = db.relationship("Tweet", cascade="all, delete")
-    
-class Tweet(db.Model):
-    __tablename__ = "tweet"
-    id = db.Column(db.Integer, primary_key=True)
-    uid = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    title = db.Column(db.String(256))
-    content = db.Column(db.String(2048))
-    date = db.Column(db.Date)
  
   
 @model.route("/users", methods=["GET", "POST", "DELETE"])
@@ -139,5 +159,3 @@ def tweets(tweet_id = 0):
         db.session.commit()
         return jsonify({}), 200
     
-#hashtable containing username and  emails:
-

@@ -1,10 +1,14 @@
 import os
 from flask import Flask, session
 from flask_sqlalchemy import SQLAlchemy
+import networkx as nx
 
 db = SQLAlchemy()
 global user_mail
 user_mail = {}
+global follows
+follows = nx.DiGraph()
+
 
 def create_app():
     app = Flask(__name__)
