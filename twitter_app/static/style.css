@@ -10,22 +10,46 @@
 
 }
 
-.bouton1
+.bouton4
 { 
   font-size : 15px;
   font-weight: normal;
+  position: absolute;
+  left : 25%;
+}
+
+.bouton5
+{ 
+  font-size : 15px;
+  font-weight: normal;
+  position: absolute;
+  left : 38%;
+}
+
+.bouton3
+{ 
+  font-size : 20px;
+  font-weight: normal;
   color: white;
   position: absolute;
-  left : 90%;
+  left : 77%;
+}
+.bouton1
+{ 
+  font-size : 20px;
+  font-weight: normal;
+  color: white;
+  position: absolute;
+  left : 85%;
 }
 
 .bouton2
 { 
-  font-size : 15px;
+  font-size : 20px;
   font-weight: normal;
   color: white;
   position: absolute;
-  left : 95%;
+  left : 92%;
 }
 
 .indent
@@ -128,4 +152,14 @@
 {
   width: 1000px;
   height: 200px
+}
+
+
+.tweet{
+  width : 70%;
+  float : left;
+}
+.friend{
+  width : 30%;
+  float : right;
 }

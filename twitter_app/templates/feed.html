@@ -32,28 +32,22 @@
     </div>
 
 
-<h1 class="title">
-        Welcome, {{ name }}
-</h1>
+    <a class="indent1" href="{{ url_for('main.tweet') }}">New Tweet</a>
+
+
+
+
+    {% for tweet in tweets %}</p>
+      <article class="box">
+        <header>
+          <div>
+            <h1>{{ tweet['title'] }}</h1>
+          </div>
+        </header>
+        <p class="body">{{ tweet.content }}</p>
+        <div class="about">by {{ tweet.uid }} </div>
+      </article>
+    {% endfor %}
+    
 </body>
-<div class="tweet">
-  <p class="indent"> My Tweets </p>
-  <p>Soon your tweets will be available</p>
-  <div class="box">tweets inoming</div>
-
-  {% for tweet in tweets %}</p>
-  <article class="box">
-    <header>
-      <div>
-        <h1>{{ tweet['title'] }}</h1>
-      </div>
-    </header>
-    <p class="body">{{ tweet.content }}</p>
-    <div class="about">by {{ tweet.uid }} </div>
-  </article>
-  {% endfor %}
-</div>
-<div class="friend">
-  <p>people I follow </p>
-
-</html> 
+</html>
