@@ -16,8 +16,17 @@
             <tr>
                 <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="15%" alt="twitter logo"> </a></td>
                 <td> 
+                  {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                      <div class="notification is-danger">
+                          {{ messages[0] }}
+                      </div>
+                  {% endif %}
+                  {% endwith %}
+                  <form action="/find_someone/index" method="post">
                   <input class="bouton4" name="username"  placeholder="Research people" id="username" value="{{ request.form['username'] }}">
                   <input class="bouton5" type="submit" value="Research">
+                  </action></td>
                 <td> <a href="{{ url_for('main.feed') }}"  > 
                   <p class="bouton3"> My Feed </p></a> 
                 </td>
@@ -35,7 +44,6 @@
 <h1 class="title">
         Welcome, {{ name }}
 </h1>
-</body>
 <div class="tweet">
   <p class="indent"> My Tweets </p>
 
@@ -52,11 +60,15 @@
   {% endfor %}
 </div>
 <div class="friend">
+  <div class="box2">
 <h1>
-  <p>people I follow </p>
+  <p>People I follow </p>
 </h1>
   {% for follow in following %}</p>
-    <p class="people">{{ user_by_id[follow]['username'] }}</p>
+    <a href="{{ url_for('main.user_profile', user = user_by_id[follow]['username']) }}"  > 
+    <p class="people">{{ user_by_id[follow]['username'] }}</p></a>
   {% endfor %}
-
+    </div>
+  </div>
+    </body>
 </html> 

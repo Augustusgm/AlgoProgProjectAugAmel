@@ -74,8 +74,17 @@ def user_profile(user):
     print(type(id_u))
     if g.user.id == id_u:
         return redirect(url_for('main.profile'))
-    tweets = Tweet.query.filter_by(uid = id_u).order_by(Tweet.id.desc()).all()
-    return render_template('user_profile.html', name=user, tweets = tweets)
+    isUser = False
+    following = []
+    if g.user:
+        isUser = True
+        following = [g.user.id]
+        if g.user.id in follows:
+            f = list(map(int, follows.neighbors(g.user.id)))
+            following += f
+            print(following)
+    tweets = Tweet.query.order_by(Tweet.id.desc()).all()
+    return render_template('user_profile.html', name=user, tweets = tweets, user_by_id = user_by_id, following = following)
 
 
 
@@ -100,5 +109,14 @@ def tweet_post():
 @main.route('/feed')
 @login_required
 def feed():
-    tweets = Tweet.query.filter_by(uid = g.user.username).order_by(Tweet.id.desc()).all()
-    return render_template('feed.html', name=g.user.username, tweets = tweets, user_by_id = user_by_id)
+    isUser = False
+    following = []
+    if g.user:
+        isUser = True
+        following = [g.user.id]
+        if g.user.id in follows:
+            f = list(map(int, follows.neighbors(g.user.id)))
+            following += f
+            print(following)
+    tweets = Tweet.query.order_by(Tweet.id.desc()).all()
+    return render_template('feed.html', name=g.user.username, tweets = tweets, user_by_id = user_by_id, following = following)
