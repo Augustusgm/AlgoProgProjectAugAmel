@@ -72,6 +72,23 @@ def update_user_by_name(user_by_name, username, user):
                 'email':user.email
                 }
         
+def init_user_by_id(user_by_id):
+    if exists('instance/twitter.sqlite') :
+        user = User.query.all()
+        for u in user:
+            user_by_id[u.id] =  {
+                'id':u.id,
+                'username':u.username,
+                'email':u.email
+                }
+            
+def update_user_by_id(user_by_id, id, user):
+        user_by_id[id] =  {
+                'id':user.id,
+                'username':user.username,
+                'email':user.email
+                }
+        
 def init_follow_graph(graph):
     if exists('instance/twitter.sqlite') :
         fol = Follow.query.with_entities(Follow.uid1,Follow.uid2).all()

@@ -8,6 +8,8 @@ global user_by_name
 user_by_name = {}
 global follows
 follows = nx.DiGraph()
+global user_by_id
+user_by_id = {}
 
 
 def create_app():
@@ -22,7 +24,9 @@ def create_app():
     
     with app.app_context():
         model.init_user_by_name(user_by_name)
-        
+    
+    with app.app_context():
+        model.init_user_by_id(user_by_id)   
 
     # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint

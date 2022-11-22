@@ -16,6 +16,13 @@
           <tr>
             <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="15%" alt="twitter logo"> </a></td>
             <td> 
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                  <div class="notification is-danger">
+                      {{ messages[0] }}
+                  </div>
+              {% endif %}
+              {% endwith %}
               <form action="/find_someone/index" method="post">
               <input class="bouton4" name="username"  placeholder="Research people" id="username" value="{{ request.form['username'] }}">
               <input class="bouton5" type="submit" value="Research">
@@ -55,7 +62,7 @@
 
 
 {% for tweet in tweets %}</p>
-  <form action="/follow_someone/{{ tweet.uid }}" method="post">
+  <form action="/follow_someone/index/{{ tweet.uid }}" method="post">
   <article class="box">
     <header>
       <div>
@@ -63,7 +70,7 @@
       </div>
     </header>
     <p class="body">{{ tweet.content }}</p>
-    <div class="about">by {{ tweet.uid }} </div>
+    <div class="about">by {{ user_by_id[tweet.uid]['username'] }} </div>
     {%if tweet.uid not in following%}
     <button name="FollowButton" type="follow">Follow</button>
     {%endif%}
