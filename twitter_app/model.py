@@ -59,10 +59,18 @@ def init_user_by_name(user_by_name):
     if exists('instance/twitter.sqlite') :
         user = User.query.all()
         for u in user:
-            user_by_name[u.username] =  u
+            user_by_name[u.username] =  {
+                'id':u.id,
+                'username':u.username,
+                'email':u.email
+                }
             
 def update_user_by_name(user_by_name, username, user):
-        user_by_name[username] =  user
+        user_by_name[username] =  {
+                'id':user.id,
+                'username':user.username,
+                'email':user.email
+                }
         
 def init_follow_graph(graph):
     if exists('instance/twitter.sqlite') :
