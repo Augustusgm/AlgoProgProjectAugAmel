@@ -37,10 +37,7 @@ def follow(uid2, isFrom):
 def find_someone(isFrom):
     username = request.form['username']
     if username in user_by_name:
-        i=user_by_name[username]['id']
-        ident = str(user_by_name[username]['id'])
-        print(f"finding {username}, with id = {ident}")
-        return redirect(url_for(f'main.user_profile({ident})'))
+        return redirect(url_for('main.user_profile', user = username))
     flash('this username does not exist')
     return redirect(url_for(f'main.{isFrom}'))
 
