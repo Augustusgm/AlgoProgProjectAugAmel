@@ -51,7 +51,7 @@ def find_tweet():
     tweets = Tweet.query.order_by(Tweet.id.desc()).all()
     F_tweets = {}
     for tweet in tweets:
-        pass
+        pass #use bloom filter
     return render_template('find_tweet.html', F_tweets)
 
 
