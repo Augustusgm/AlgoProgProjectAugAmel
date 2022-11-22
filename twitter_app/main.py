@@ -36,21 +36,21 @@ def follow(uid2):
 @main.route('/find_someone/<username>', methods=['POST'])
 def find_someone(username):
     uid1 = g.user.id
-    new_follow = Follow(uid1 = uid1, uid2 = uid2)
-    update_follow_graph(follows, uid1, uid2)
+    new_follow = Follow(uid1 = uid1, uid2 = username)
+    update_follow_graph(follows, uid1, username)
     db.session.add(new_follow)
     db.session.commit()
-    print(uid1, ' now follows ', uid2)
+    print(uid1, ' now follows ', username)
     return redirect(url_for('main.index'))
 
 @main.route('/find_tweet/<sentence>', methods=['POST'])
 def find_tweet(sentence):
     uid1 = g.user.id
-    new_follow = Follow(uid1 = uid1, uid2 = uid2)
-    update_follow_graph(follows, uid1, uid2)
+    new_follow = Follow(uid1 = uid1, uid2 = sentence)
+    update_follow_graph(follows, uid1, sentence)
     db.session.add(new_follow)
     db.session.commit()
-    print(uid1, ' now follows ', uid2)
+    print(uid1, ' now follows ', sentence)
     return redirect(url_for('main.index'))
 
 @main.route('/profile')
