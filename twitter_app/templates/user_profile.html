@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    <title>Homepage</title>
+    <title> Profile </title>
 </head>
 
 
@@ -14,26 +14,32 @@
     <div class="head1">
         <table>
             <tr>
-                <td> <img src="{{ url_for('static', filename='t.png') }}" width="15%" alt="twitter logo"> </td>
-                <td> <a href="{{ url_for('auth.register') }}"  > 
-                    <p class="bouton1"> Register </p></a>
+                <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="15%" alt="twitter logo"> </a></td>
+                <td> 
+                  <input class="bouton4" name="username"  placeholder="Research people" id="username" value="{{ request.form['username'] }}">
+                  <input class="bouton5" type="submit" value="Research">
+                <td> <a href="{{ url_for('main.feed') }}"  > 
+                  <p class="bouton3"> My Feed </p></a> 
                 </td>
-                <td> <a href="{{ url_for('auth.login') }}"  > 
-                    <p class="bouton2"> Login </p></a>
+                <td> <a href="{{ url_for('main.profile') }}"  > 
+                    <p class="bouton1"> Profile </p></a>
+                </td>
+                <td> <a href="{{ url_for('auth.logout') }}"  > 
+                    <p class="bouton2"> Log-out </p></a> 
                 </td>
             </tr>
         </table>
     </div>
 
 
-<br>
-
-
 <h1 class="title">
-    This is, {{ name }}
+        This is the profil of {{ name }}
 </h1>
+</body>
+<div class="tweet">
+  <p class="indent"> His Tweets </p>
 
-{% for tweet in tweets %}</p>
+  {% for tweet in tweets %}</p>
   <article class="box">
     <header>
       <div>
@@ -43,8 +49,9 @@
     <p class="body">{{ tweet.content }}</p>
     <div class="about">by {{ name }} </div>
   </article>
-{% endfor %}
-
-    
+  {% endfor %}
+</div>
+<div class="friend">
+  <p class="indent">People that {{name}} follows </p>
 </body>
 </html> 
