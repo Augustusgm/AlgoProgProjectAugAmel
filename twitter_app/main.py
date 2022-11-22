@@ -40,7 +40,7 @@ def find_someone(isFrom):
         i=user_by_name[username]['id']
         ident = str(user_by_name[username]['id'])
         print(f"finding {username}, with id = {ident}")
-        return redirect(url_for(f'main.user_profile/{ident}'))
+        return redirect(url_for(f'main.user_profile({ident})'))
     flash('this username does not exist')
     return redirect(url_for(f'main.{isFrom}'))
 
