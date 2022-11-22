@@ -3,6 +3,7 @@ from .auth import login_required
 from .model import User, Tweet, Follow
 from . import db
 from . import user_by_name
+from . import user_by_id
 from . import follows
 from .model import update_follow_graph
 main = Blueprint('main', __name__)
@@ -20,7 +21,7 @@ def index():
             print(following)
     tweets = Tweet.query.order_by(Tweet.id.desc()).all()
     
-    return render_template('index.html', tweets = tweets, isUser = isUser, following = following)
+    return render_template('index.html', tweets = tweets, isUser = isUser, following = following, user_by_id = user_by_id)
 
 @main.route('/follow_someone/<isFrom>/<uid2>', methods=['POST'])
 @login_required
@@ -56,7 +57,11 @@ def find_tweet():
 @login_required
 def profile():
     tweets = Tweet.query.filter_by(uid = g.user.id).order_by(Tweet.id.desc()).all()
-    return render_template('profile.html', name=g.user.username, tweets = tweets)
+    f = []
+    if g.user.id in follows:
+            f = list(map(int, follows.neighbors(g.user.id)))
+            print(f)
+    return render_template('profile.html', name=g.user.username, tweets = tweets, following = f)
 
 @main.route('/user_profile/<user>')
 def user_profile(user):

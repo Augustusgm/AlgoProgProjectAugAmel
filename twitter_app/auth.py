@@ -50,7 +50,7 @@ def register_post():
 
         new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256'))
         model.update_user_by_name(user_by_name, username, new_user)
-        print(user_by_name)
+        model.update_user_by_name(user_by_name, new_user.id, new_user)
         db.session.add(new_user)
         db.session.commit()
         return render_template('login.html')

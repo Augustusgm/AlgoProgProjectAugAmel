@@ -38,8 +38,6 @@
 </body>
 <div class="tweet">
   <p class="indent"> My Tweets </p>
-  <p>Soon your tweets will be available</p>
-  <div class="box">tweets inoming</div>
 
   {% for tweet in tweets %}</p>
   <article class="box">
@@ -49,11 +47,16 @@
       </div>
     </header>
     <p class="body">{{ tweet.content }}</p>
-    <div class="about">by {{ tweet.uid }} </div>
+    <div class="about">by me </div>
   </article>
   {% endfor %}
 </div>
 <div class="friend">
+<h1>
   <p>people I follow </p>
+</h1>
+  {% for follow in following %}</p>
+    <p class="people">{{ follow }}</p>
+  {% endfor %}
 
 </html> 
