@@ -82,8 +82,11 @@
   width: 70%;
   border-radius: 10px;
   height: 30%;
-  margin: 70px;
+  margin-top:5%;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0;
+  position:center;
   border: 2px solid dodgerblue;
 }
 
