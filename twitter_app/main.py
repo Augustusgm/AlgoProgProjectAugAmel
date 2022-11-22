@@ -1,17 +1,37 @@
 from flask import Blueprint, render_template, Blueprint, render_template, redirect, url_for,session, request, current_app, flash, g
 from .auth import login_required
-from .model import User, Tweet
+from .model import User, Tweet, Follow
 from . import db
 from . import user_by_name
+from . import follows
+from .model import update_follow_graph
 main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
     isUser = False
+    following = []
     if g.user:
         isUser = True
+        following = [g.user.id]
+        if g.user.id in follows:
+            f = list(map(int, follows.neighbors(g.user.id)))
+            following += f
+            print(following)
     tweets = Tweet.query.order_by(Tweet.id.desc()).all()
-    return render_template('index.html', tweets = tweets, isUser = isUser)
+    
+    return render_template('index.html', tweets = tweets, isUser = isUser, following = following)
+
+@main.route('/follow_someone/<uid2>', methods=['POST'])
+@login_required
+def follow(uid2):
+    uid1 = g.user.id
+    new_follow = Follow(uid1 = uid1, uid2 = uid2)
+    update_follow_graph(follows, uid1, uid2)
+    db.session.add(new_follow)
+    db.session.commit()
+    print(uid1, ' now follows ', uid2)
+    return redirect(url_for('main.index'))
 
 @main.route('/profile')
 @login_required
