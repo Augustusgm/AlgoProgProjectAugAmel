@@ -7,8 +7,11 @@ main = Blueprint('main', __name__)
 
 @main.route('/')
 def index():
+    isUser = False
+    if g.user:
+        isUser = True
     tweets = Tweet.query.order_by(Tweet.id.desc()).all()
-    return render_template('index.html', tweets = tweets)
+    return render_template('index.html', tweets = tweets, isUser = isUser)
 
 @main.route('/profile')
 @login_required
