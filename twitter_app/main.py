@@ -22,36 +22,38 @@ def index():
     
     return render_template('index.html', tweets = tweets, isUser = isUser, following = following)
 
-@main.route('/follow_someone/<uid2>', methods=['POST'])
+@main.route('/follow_someone/<isFrom>/<uid2>', methods=['POST'])
 @login_required
-def follow(uid2):
+def follow(uid2, isFrom):
     uid1 = g.user.id
     new_follow = Follow(uid1 = uid1, uid2 = uid2)
     update_follow_graph(follows, uid1, uid2)
     db.session.add(new_follow)
     db.session.commit()
     print(uid1, ' now follows ', uid2)
-    return redirect(url_for('main.index'))
+    return redirect(url_for(f'main.{isFrom}'))
 
-@main.route('/find_someone/<username>', methods=['POST'])
-def find_someone(username):
-    uid1 = g.user.id
-    new_follow = Follow(uid1 = uid1, uid2 = username)
-    update_follow_graph(follows, uid1, username)
-    db.session.add(new_follow)
-    db.session.commit()
-    print(uid1, ' now follows ', username)
-    return redirect(url_for('main.index'))
+@main.route('/find_someone/<isFrom>', methods=['POST'])
+def find_someone(isFrom):
+    username = request.form['username']
+    i=user_by_name[username]['id']
+    if i:
+        ident = str(user_by_name[username]['id'])
+        print(f"finding {username}, with id = {ident}")
+        return redirect(url_for(f'main.user_profile/{ident}'))
+    flash('this username does not exist')
+    return redirect(url_for(f'main.{isFrom}'))
 
-@main.route('/find_tweet/<sentence>', methods=['POST'])
-def find_tweet(sentence):
-    uid1 = g.user.id
-    new_follow = Follow(uid1 = uid1, uid2 = sentence)
-    update_follow_graph(follows, uid1, sentence)
-    db.session.add(new_follow)
-    db.session.commit()
-    print(uid1, ' now follows ', sentence)
-    return redirect(url_for('main.index'))
+@main.route('/find_tweet', methods=['POST'])
+def find_tweet():
+    sentence = request.form['sentence']
+    l_sentence = sentence.lower().split()
+    tweets = Tweet.query.order_by(Tweet.id.desc()).all()
+    F_tweets = {}
+    for tweet in tweets:
+        pass
+    return render_template('find_tweet.html', F_tweets)
+
 
 @main.route('/profile')
 @login_required
