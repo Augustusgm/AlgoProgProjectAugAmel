@@ -63,3 +63,9 @@ def tweet_post():
         db.session.add(new_tweet)
         db.session.commit()
     return redirect(url_for('main.index'))
+
+@main.route('/feed')
+@login_required
+def feed():
+    tweets = Tweet.query.filter_by(uid = g.user.username).order_by(Tweet.id.desc()).all()
+    return render_template('feed.html', name=g.user.username, tweets = tweets)
