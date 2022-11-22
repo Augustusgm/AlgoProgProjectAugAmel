@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for,session, request
 from . import model
 from . import db
 from . import user_by_name
+from . import user_by_id
 from .model import User
 import functools
 import requests
@@ -49,10 +50,10 @@ def register_post():
             return redirect(url_for('auth.register'))
 
         new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256'))
-        model.update_user_by_name(user_by_name, username, new_user)
-        model.update_user_by_name(user_by_name, new_user.id, new_user)
         db.session.add(new_user)
         db.session.commit()
+        model.update_user_by_name(user_by_name, username, new_user)
+        model.update_user_by_id(user_by_id, new_user.id, new_user)
         return render_template('login.html')
         
 @auth.route('/logout')

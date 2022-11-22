@@ -23,15 +23,17 @@ def index():
     
     return render_template('index.html', tweets = tweets, isUser = isUser, following = following, user_by_id = user_by_id)
 
-@main.route('/follow_someone/<isFrom>/<uid2>', methods=['POST'])
+@main.route('/follow_someone/<uid2>/<isFrom>')
 @login_required
-def follow(uid2, isFrom):
+def follow_someone(uid2, isFrom):
     uid1 = g.user.id
     new_follow = Follow(uid1 = uid1, uid2 = uid2)
     update_follow_graph(follows, uid1, uid2)
     db.session.add(new_follow)
     db.session.commit()
     print(uid1, ' now follows ', uid2)
+    if isFrom == 'home':
+        isFrom = "index"
     return redirect(url_for(f'main.{isFrom}'))
 
 @main.route('/find_someone/<isFrom>', methods=['POST'])
@@ -61,11 +63,17 @@ def profile():
     if g.user.id in follows:
             f = list(map(int, follows.neighbors(g.user.id)))
             print(f)
-    return render_template('profile.html', name=g.user.username, tweets = tweets, following = f)
+    return render_template('profile.html', name=g.user.username, tweets = tweets, following = f, user_by_id = user_by_id)
 
 @main.route('/user_profile/<user>')
 def user_profile(user):
     id_u = user_by_name[user]['id']
+    print(id_u)
+    print(g.user.id)
+    print(type(g.user.id))
+    print(type(id_u))
+    if g.user.id == id_u:
+        return redirect(url_for('main.profile'))
     tweets = Tweet.query.filter_by(uid = id_u).order_by(Tweet.id.desc()).all()
     return render_template('user_profile.html', name=user, tweets = tweets)
 
