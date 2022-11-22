@@ -55,14 +55,14 @@ def init_appp(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
     
-def init_user_mail(user_mail):
+def init_user_by_name(user_by_name):
     if exists('instance/twitter.sqlite') :
-        user = User.query.with_entities(User.username,User.email).all()
+        user = User.query.all()
         for u in user:
-            user_mail[u.username] =  u.email
+            user_by_name[u.username] =  u
             
-def update_user_mail(user_mail, username, email):
-        user_mail[username] =  email
+def update_user_by_name(user_by_name, username, user):
+        user_by_name[username] =  user
         
 def init_follow_graph(graph):
     if exists('instance/twitter.sqlite') :

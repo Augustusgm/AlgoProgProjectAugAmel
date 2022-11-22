@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, Blueprint, render_template, redire
 from .auth import login_required
 from .model import User, Tweet
 from . import db
+from . import user_by_name
 main = Blueprint('main', __name__)
 
 @main.route('/')
@@ -14,6 +15,12 @@ def index():
 def profile():
     tweets = Tweet.query.filter_by(uid = g.user.username).order_by(Tweet.id.desc()).all()
     return render_template('profile.html', name=g.user.username, tweets = tweets)
+
+@main.route('/user_profile/<user>')
+def user_profile(user):
+    id_u = user_by_name[user].id
+    tweets = Tweet.query.filter_by(uid = id_u).order_by(Tweet.id.desc()).all()
+    return render_template('user_profile.html', name=user, tweets = tweets)
 
 
 @main.route('/tweet')

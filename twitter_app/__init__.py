@@ -4,8 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 import networkx as nx
 
 db = SQLAlchemy()
-global user_mail
-user_mail = {}
+global user_by_name
+user_by_name = {}
 global follows
 follows = nx.DiGraph()
 
@@ -21,7 +21,7 @@ def create_app():
     model.init_appp(app)
     
     with app.app_context():
-        model.init_user_mail(user_mail)
+        model.init_user_by_name(user_by_name)
         
 
     # blueprint for auth routes in our app

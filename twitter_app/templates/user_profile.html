@@ -6,32 +6,34 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-    <title> Profile </title>
+    <title>Homepage</title>
 </head>
+
 
 <body>
     <div class="head1">
         <table>
             <tr>
                 <td> <img src="{{ url_for('static', filename='t.png') }}" width="15%" alt="twitter logo"> </td>
-                <td> <a href="{{ url_for('main.index') }}"  > 
-                    <p class="bouton1"> Feed </p></a>
+                <td> <a href="{{ url_for('auth.register') }}"  > 
+                    <p class="bouton1"> Register </p></a>
                 </td>
-                <td> <a href="{{ url_for('auth.logout') }}"  > 
-                    <p class="bouton2"> Log-out </p></a> 
+                <td> <a href="{{ url_for('auth.login') }}"  > 
+                    <p class="bouton2"> Login </p></a>
                 </td>
             </tr>
         </table>
     </div>
 
 
+<br>
+
+
+<a class="indent1" href="{{ url_for('main.following', {{name}}) }}">Follows</a>
+
 <h1 class="title">
-        Welcome, {{ name }}
+    This is, {{ name }}
 </h1>
-<p class="indent"> My Tweets </p>
-<p>Soon your tweets will be available</p>
-<div class="box">tweets inoming</div>
-</body>
 
 {% for tweet in tweets %}</p>
   <article class="box">
@@ -45,4 +47,6 @@
   </article>
 {% endfor %}
 
+    
+</body>
 </html> 
