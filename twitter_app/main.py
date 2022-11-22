@@ -36,8 +36,8 @@ def follow(uid2, isFrom):
 @main.route('/find_someone/<isFrom>', methods=['POST'])
 def find_someone(isFrom):
     username = request.form['username']
-    i=user_by_name[username]['id']
-    if i:
+    if username in user_by_name:
+        i=user_by_name[username]['id']
         ident = str(user_by_name[username]['id'])
         print(f"finding {username}, with id = {ident}")
         return redirect(url_for(f'main.user_profile/{ident}'))
