@@ -93,4 +93,4 @@ def tweet_post():
 @login_required
 def feed():
     tweets = Tweet.query.filter_by(uid = g.user.username).order_by(Tweet.id.desc()).all()
-    return render_template('feed.html', name=g.user.username, tweets = tweets)
+    return render_template('feed.html', name=g.user.username, tweets = tweets, user_by_id = user_by_id)

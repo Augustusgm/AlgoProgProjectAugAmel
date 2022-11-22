@@ -45,7 +45,7 @@
           </div>
         </header>
         <p class="body">{{ tweet.content }}</p>
-        <div class="about">by {{ tweet.uid }} </div>
+        <div class="about">by {{ user_by_id[tweet.uid]['username'] }} </div>
       </article>
     {% endfor %}
     
