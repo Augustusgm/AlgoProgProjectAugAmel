@@ -33,6 +33,26 @@ def follow(uid2):
     print(uid1, ' now follows ', uid2)
     return redirect(url_for('main.index'))
 
+@main.route('/find_someone/<username>', methods=['POST'])
+def find_someone(username):
+    uid1 = g.user.id
+    new_follow = Follow(uid1 = uid1, uid2 = uid2)
+    update_follow_graph(follows, uid1, uid2)
+    db.session.add(new_follow)
+    db.session.commit()
+    print(uid1, ' now follows ', uid2)
+    return redirect(url_for('main.index'))
+
+@main.route('/find_tweet/<sentence>', methods=['POST'])
+def find_tweet(sentence):
+    uid1 = g.user.id
+    new_follow = Follow(uid1 = uid1, uid2 = uid2)
+    update_follow_graph(follows, uid1, uid2)
+    db.session.add(new_follow)
+    db.session.commit()
+    print(uid1, ' now follows ', uid2)
+    return redirect(url_for('main.index'))
+
 @main.route('/profile')
 @login_required
 def profile():
@@ -44,6 +64,7 @@ def user_profile(user):
     id_u = user_by_name[user]['id']
     tweets = Tweet.query.filter_by(uid = id_u).order_by(Tweet.id.desc()).all()
     return render_template('user_profile.html', name=user, tweets = tweets)
+
 
 
 @main.route('/tweet')
