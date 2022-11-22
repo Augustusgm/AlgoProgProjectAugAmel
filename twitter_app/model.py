@@ -27,9 +27,8 @@ class Tweet(db.Model):
     date = db.Column(db.Date)
     
 class Follow(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    uid1 = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    uid2 = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    uid1 = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, primary_key=True)
+    uid2 = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, primary_key=True)
     
    
 def get_db():
