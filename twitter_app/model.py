@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, request, current_app, g
 import click
-import sqlite3
 from flask_sqlalchemy import SQLAlchemy
 from . import db
 import networkx as nx

@@ -5,7 +5,6 @@ from . import user_by_name
 from . import user_by_id
 from .model import User
 import functools
-import requests
 from werkzeug.security import generate_password_hash, check_password_hash
 
 

@@ -1,15 +1,12 @@
 # AlgoProgProjectAugAmel
 
-in this project we have created 2 files which for now will each deal with a particular part of the project
+there are several python libraries necessary such as networkx, flask, flask_sqlalchemy, functools, werkzeug.security, click.
 
-pour voir les changement : 
-git pull
-
-pour faire changer : 
-git add backend.py
-git commit -m "ce que jai changé"
-git push
+## If the data file is not there, run the following code from outside the twitter_app folder:
 
 initialize database si pas présent: ```flask --app twitter_app init-db```
+
+
+## To run the app (in debug mode), run the following code from outside the twitter_app folder:
 
 run application in debug: ```flask --app twitter_app --debug run```
