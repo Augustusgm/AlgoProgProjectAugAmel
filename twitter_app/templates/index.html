@@ -14,7 +14,7 @@
         <table>
           {% if isUser %}
           <tr>
-            <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="15%" alt="twitter logo"> </a></td>
+            <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="20%" alt="twitter logo"> </a></td>
             <td> 
               {% with messages = get_flashed_messages() %}
               {% if messages %}
@@ -24,8 +24,8 @@
               {% endif %}
               {% endwith %}
               <form action="/find_someone/index" method="post">
-              <input class="bouton4" name="username"  placeholder="Research people" id="username" value="{{ request.form['username'] }}">
-              <input class="bouton5" type="submit" value="Research">
+              <input class="bouton4" name="username"  placeholder="Research" id="username" value="{{ request.form['username'] }}">
+              <input class="bouton5" type="submit" placeholder="Username" value="Research">
               </action>
             </td>
             <td> <a href="{{ url_for('main.feed') }}"  > 
@@ -59,7 +59,7 @@
 <a class="indent1" href="{{ url_for('main.tweet') }}">New Tweet</a>
 
 
-
+<article class="centerBox">
 {% for tweet in tweets %}</p>
   <article class="box">
     <header>
@@ -74,6 +74,8 @@
     {%endif%}
   </article>
 {% endfor %}
+</article>
+
 
 
     

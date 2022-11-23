@@ -13,7 +13,7 @@
     <div class="head1">
         <table>
             <tr>
-                <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="15%" alt="twitter logo"> </a></td>
+                <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="20%" alt="twitter logo"> </a></td>
             
                 <td> <a href="{{ url_for('main.feed') }}"  > 
                   <p class="bouton3"> My Feed </p></a> 
@@ -27,18 +27,21 @@
             </tr>
         </table>
     </div>
-    <p class="indent"> Creation Tweets </p>
-    
 
+    <article class="TweetBox">
+
+    <h1> Creation Tweets </h1>
+    </article>
+
+    <article class="centerBox">
     <div class="box">   
         <form method="post">
             <br>
-            <label for="title">Title</label><br>
-            <input name="title" id="title" value="{{ request.form['title'] }}" required><br><br>
-            <label for="content">Content</label><br>
-            <input name="content" class="case" id="content" value="{{ request.form['content'] }}" ><br><br>
-            <input type="submit" value="Send">
+            <input class="TwTitle" name="title" placeholder="Title" id="title" value="{{ request.form['title'] }}" required><br><br>
+            <textarea class="TwCase" name="content" placeholder="Content"  id="content" rows="5"> {{ request.form['content'] }} </textarea ><br><br>
+            <input class="TwSend" type="submit" value="Tweet">
         </form>
     </div>
+</article>
 </body>
 </html> 

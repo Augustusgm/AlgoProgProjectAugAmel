@@ -14,7 +14,7 @@
     <div class="head1">
         <table>
             <tr>
-                <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="15%" alt="twitter logo"> </a></td>
+                <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="20%" alt="twitter logo"> </a></td>
                 <td> 
                   {% with messages = get_flashed_messages() %}
                   {% if messages %}
@@ -24,8 +24,8 @@
                   {% endif %}
                   {% endwith %}
                   <form action="/find_someone/index" method="post">
-                  <input class="bouton4" name="username"  placeholder="Research people" id="username" value="{{ request.form['username'] }}">
-                  <input class="bouton5" type="submit" value="Research">
+                  <input class="bouton4" name="username"  placeholder="Research" id="username" value="{{ request.form['username'] }}">
+                  <input class="bouton5" type="submit" placeholder="Username" value="Research">
                   </action></td>
                 <td> <a href="{{ url_for('main.feed') }}"  > 
                   <p class="bouton3"> My Feed </p></a> 
@@ -40,16 +40,21 @@
         </table>
     </div>
 
-
+    <div>
+ 
+<article class="profileBox">
 <h1 class="title">
         This is the profil of {{ name }}
         {%if user_by_name[name]['id'] not in following%}
-        <a class="followButton" href="{{ url_for('main.follow_someone', uid2 = user_by_name[name]['id']) }}">Follow</a>
+        <small><a class="followButton" href="{{ url_for('main.follow_someone', uid2 = user_by_name[name]['id']) }}">Follow</a></small>
         {%endif%}
 </h1>
+</article>
 
-</body>
-<div class="tweet">
+
+
+<div class="leftBox">
+
   <p class="indent"> Their Tweets </p>
 
   {% for tweet in tweets %}</p>
@@ -63,17 +68,18 @@
     <div class="about">by {{ name }} </div>
   </article>
   {% endfor %}
+
 </div>
-<div class="friend">
-  <div class="box2">
-  <h1>People that {{name}} follows </h1>
 
-  {% for follow in following %}
-
-  <a href="{{ url_for('main.user_profile', user = user_by_id[follow]['username']) }}"  > 
-  <p class="people">{{ user_by_id[follow]['username'] }}</p></a>
-  {% endfor %}
+<article class="friend">
+  <div>
+  <h2>People that {{name}} follows </h2>
   </div>
-</div>
+  {% for follow in following %}
+  <div>
+  <a class="about" href="{{ url_for('main.user_profile', user = user_by_id[follow]['username']) }}"  > {{ user_by_id[follow]['username'] }}</a>
+  </div>
+  {% endfor %}
+</article>
 </body>
 </html> 

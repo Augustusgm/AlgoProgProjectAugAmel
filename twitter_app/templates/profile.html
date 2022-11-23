@@ -14,7 +14,7 @@
     <div class="head1">
         <table>
             <tr>
-                <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="15%" alt="twitter logo"> </a></td>
+                <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="20%" alt="twitter logo"> </a></td>
                 <td> 
                   {% with messages = get_flashed_messages() %}
                   {% if messages %}
@@ -24,8 +24,8 @@
                   {% endif %}
                   {% endwith %}
                   <form action="/find_someone/index" method="post">
-                  <input class="bouton4" name="username"  placeholder="Research people" id="username" value="{{ request.form['username'] }}">
-                  <input class="bouton5" type="submit" value="Research">
+                  <input class="bouton4" name="username"  placeholder="Research" id="username" value="{{ request.form['username'] }}">
+                  <input class="bouton5" type="submit" placeholder="Username" value="Research">
                   </action></td>
                 <td> <a href="{{ url_for('main.feed') }}"  > 
                   <p class="bouton3"> My Feed </p></a> 
@@ -40,35 +40,44 @@
         </table>
     </div>
 
-
-<h1 class="title">
+<div>
+    <article class="profileBox">
+      <h1 class="title">
         Welcome, {{ name }}
-</h1>
-<div class="tweet">
-  <p class="indent"> My Tweets </p>
+      </h1>
+    </article>
 
-  {% for tweet in tweets %}</p>
-  <article class="box">
-    <header>
-      <div>
-        <h1>{{ tweet['title'] }}</h1>
-      </div>
-    </header>
-    <p class="body">{{ tweet.content }}</p>
-    <div class="about">by me </div>
-  </article>
-  {% endfor %}
-</div>
-<div class="friend">
-  <div class="box2">
+
+  <div class="leftBox">
+    <p class="indent"> My Tweets </p>
+
+    {% for tweet in tweets %}</p>
+    <article class="box">
+      <header>
+        <div>
+          <h1>{{ tweet['title'] }}</h1>
+        </div>
+      </header>
+      <p class="body">{{ tweet.content }}</p>
+      <div class="about">by me </div>
+    </article>
+    {% endfor %}
+  </div>
+
+<article class="friend">
+<div>
 <h1>
   <p>People I follow </p>
 </h1>
-  {% for follow in following %}</p>
-    <a href="{{ url_for('main.user_profile', user = user_by_id[follow]['username']) }}"  > 
-    <p class="people">{{ user_by_id[follow]['username'] }}</p></a>
-  {% endfor %}
-    </div>
+</div>
+
+  {% for follow in following %}
+  <div>
+    <a class="about" href="{{ url_for('main.user_profile', user = user_by_id[follow]['username']) }}"  > {{ user_by_id[follow]['username'] }}</a>
   </div>
+    {% endfor %}
+
+</article>
+
     </body>
 </html> 
