@@ -43,7 +43,11 @@
 
 <h1 class="title">
         This is the profil of {{ name }}
+        {%if user_by_name[name]['id'] not in following%}
+        <a class="followButton" href="{{ url_for('main.follow_someone', uid2 = user_by_name[name]['id'], isFrom = "home") }}">Follow</a>
+        {%endif%}
 </h1>
+
 </body>
 <div class="tweet">
   <p class="indent"> Their Tweets </p>
