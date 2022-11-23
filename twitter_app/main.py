@@ -5,6 +5,7 @@ from . import db
 from . import user_by_name
 from . import user_by_id
 from . import follows
+import networkx as nx
 from .model import update_follow_graph
 main = Blueprint('main', __name__)
 
@@ -23,17 +24,18 @@ def index():
     
     return render_template('index.html', tweets = tweets, isUser = isUser, following = following, user_by_id = user_by_id)
 
-@main.route('/follow_someone/<uid2>/<isFrom>')
+@main.route('/follow_someone/<uid2>')
 @login_required
-def follow_someone(uid2, isFrom):
+def follow_someone(uid2):
+    isFrom = "index"
     uid1 = g.user.id
+    if Follow.query.filter_by(uid1 = uid1).filter_by(uid2 = uid2).first():
+        return redirect(url_for(f'main.{isFrom}'))
     new_follow = Follow(uid1 = uid1, uid2 = uid2)
-    update_follow_graph(follows, uid1, uid2)
     db.session.add(new_follow)
     db.session.commit()
+    update_follow_graph(follows, uid1, uid2)
     print(uid1, ' now follows ', uid2)
-    if isFrom == 'home':
-        isFrom = "index"
     return redirect(url_for(f'main.{isFrom}'))
 
 @main.route('/find_someone/<isFrom>', methods=['POST'])
@@ -74,12 +76,11 @@ def user_profile(user):
     following = []
     if g.user:
         isUser = True
-        following = [g.user.id]
         if g.user.id in follows:
             f = list(map(int, follows.neighbors(g.user.id)))
-            following += f
+            following = f
             print(following)
-    tweets = Tweet.query.order_by(Tweet.id.desc()).all()
+    tweets = Tweet.query.filter_by(uid = id_u).order_by(Tweet.id.desc()).all()
     return render_template('user_profile.html', name=user, tweets = tweets, user_by_id = user_by_id, user_by_name = user_by_name, following = following)
 
 

@@ -91,7 +91,9 @@ def update_user_by_id(user_by_id, id, user):
 def init_follow_graph(graph):
     if exists('instance/twitter.sqlite') :
         fol = Follow.query.with_entities(Follow.uid1,Follow.uid2).all()
-        graph.add_edges_from(fol)
+        for f in fol:
+            graph.add_edge(f.uid1,f.uid2)
+        #graph.add_edges_from(fol)
     
     
 def update_follow_graph(graph, uid1, uid2):

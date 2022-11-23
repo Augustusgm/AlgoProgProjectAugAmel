@@ -28,6 +28,9 @@ def create_app():
     with app.app_context():
         model.init_user_by_id(user_by_id)   
 
+    with app.app_context():
+        model.init_follow_graph(follows)
+         
     # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
