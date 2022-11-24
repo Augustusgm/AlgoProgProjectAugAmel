@@ -12,7 +12,6 @@
 <body>
     <div class="head1">
         <table>
-          {% if isUser %}
           <tr>
             <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="20%" alt="twitter logo"> </a></td>
             <td> 
@@ -25,9 +24,10 @@
               {% endwith %}
               <form action="/find_someone/index" method="post">
               <input class="bouton4" name="username"  placeholder="Research" id="username" value="{{ request.form['username'] }}">
-              <input class="bouton5" type="submit" placeholder="Username" value="Research">
+              <input class="bouton5" type="submit" placeholder="Username" value="Username">
               </action>
             </td>
+            {% if isUser %}
             <td> <a href="{{ url_for('main.feed') }}"  > 
               <p class="bouton3"> My Feed </p></a> 
             </td>
@@ -39,8 +39,6 @@
             </td>
           </tr>
           {% else %}
-            <tr>
-                <td> <img src="{{ url_for('static', filename='t.png') }}" width="15%" alt="twitter logo"> </td>
                 <td> <a href="{{ url_for('auth.register') }}"  > 
                     <p class="bouton1"> Register </p></a>
                 </td>

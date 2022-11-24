@@ -24,12 +24,12 @@
         </table>
     </div>
     
+    <article class="loginBox">
 
+        <h1> REGISTER </h1>
+    </article>
 
-    <div class="box"> 
-        <div class="head2">
-            <p class="p1"> REGISTER </p>   
-        </div>
+    <div class="lcenterBox"> 
             {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="notification is-danger">
@@ -38,13 +38,10 @@
             {% endif %}
             {% endwith %}
             <form method="POST" action="/register">
-            <label for="username">Username</label><br>
-            <input name="username" placeholder="Enter Username" value="{{ request.form['username'] }}"></input><br><br>
-            <label for="email">Email</label><br>
-            <input name="email" placeholder="Enter Email" value="{{ request.form['email'] }}"></input><br><br>
-            <label for="password">Password</label><br>
-            <input type="password" name="password"  placeholder="Enter Password" id="password" value="{{ request.form['password'] }}"><br><br>
-            <input type="submit" value="Register">
+            <input class="login-input" name="username" placeholder="Enter Username" value="{{ request.form['username'] }}"></input><br><br>
+            <input class="login-input" name="email" placeholder="Enter Email" value="{{ request.form['email'] }}"></input><br><br>
+            <input class="login-input" type="password" name="password"  placeholder="Enter Password" id="password" value="{{ request.form['password'] }}"><br><br>
+            <input class="TwSend" type="submit" value="Register">
         </form>
     </div>
 </body>

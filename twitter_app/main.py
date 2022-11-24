@@ -70,8 +70,9 @@ def profile():
 @main.route('/user_profile/<user>')
 def user_profile(user):
     id_u = user_by_name[user]['id']
-    if g.user.id == id_u:
-        return redirect(url_for('main.profile'))
+    if g.user:
+        if g.user.id == id_u:
+            return redirect(url_for('main.profile'))
     isUser = False
     following = []
     if g.user:
@@ -81,7 +82,7 @@ def user_profile(user):
             following = f
             print(following)
     tweets = Tweet.query.filter_by(uid = id_u).order_by(Tweet.id.desc()).all()
-    return render_template('user_profile.html', name=user, tweets = tweets, user_by_id = user_by_id, user_by_name = user_by_name, following = following)
+    return render_template('user_profile.html', name=user, tweets = tweets, user_by_id = user_by_id, user_by_name = user_by_name, following = following, isUser = isUser)
 
 
 
