@@ -55,7 +55,9 @@
 <article class="profileBox">
 <h1 class="title">
         This is the profil of {{ name }}
-        {%if not isfollowing%}
+        {%if isfollowing%}
+        <small><a class="unfollowButton" href="{{ url_for('main.unfollow_someone', uid2 = user_by_name[name]['id']) }}">Unfollow</a></small>
+        {%else%}
         <small><a class="followButton" href="{{ url_for('main.follow_someone', uid2 = user_by_name[name]['id']) }}">Follow</a></small>
         {%endif%}
 </h1>
@@ -88,6 +90,11 @@
   {% for follow in following %}
   <div>
   <a class="about" href="{{ url_for('main.user_profile', user = user_by_id[follow]['username']) }}"  > {{ user_by_id[follow]['username'] }}</a>
+  {%if follow not in Me_following%}
+  <a class="followButton" href="{{ url_for('main.follow_someone', uid2 = follow) }}">Follow</a>
+  {%elif follow != user%}
+  <a class="unfollowButton" href="{{ url_for('main.unfollow_someone', uid2 = follow) }}">Unfollow</a>
+  {%endif%}
   </div>
   {% endfor %}
 </article>

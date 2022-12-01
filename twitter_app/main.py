@@ -92,12 +92,16 @@ def user_profile(user):
         isUser = True
         if follows.has_edge(g.user.id,id_u):
             isfollowing = True
+    Me_following = []
+    if g.user.id in follows:
+        f = list(map(int, follows.neighbors(g.user.id)))
+        Me_following = f
     following = []
     if id_u in follows:
         f = list(map(int, follows.neighbors(id_u)))
         following = f
     tweets = Tweet.query.filter_by(uid = id_u).order_by(Tweet.id.desc()).all()
-    return render_template('user_profile.html', name=user, tweets = tweets, user_by_id = user_by_id, user_by_name = user_by_name, following = following, isfollowing = isfollowing, isUser = isUser)
+    return render_template('user_profile.html', name=user, tweets = tweets, user_by_id = user_by_id, user_by_name = user_by_name, following = following, Me_following=Me_following,  isfollowing = isfollowing, isUser = isUser)
 
     
 
