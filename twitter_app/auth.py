@@ -1,8 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for,session, request, current_app, flash, g
 from . import model
-from . import db
-from . import user_by_name
-from . import user_by_id
+from . import db, user_by_name,user_by_id,follows
 from .model import User
 import functools
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -51,8 +49,8 @@ def register_post():
         new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256'))
         db.session.add(new_user)
         db.session.commit()
-        model.update_user_by_name(user_by_name, username, new_user)
-        model.update_user_by_id(user_by_id, new_user.id, new_user)
+        model.update_user_by_name(username, new_user)
+        model.update_user_by_id(new_user.id, new_user)
         return render_template('login.html')
         
 @auth.route('/logout')

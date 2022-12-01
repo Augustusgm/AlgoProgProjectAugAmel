@@ -55,7 +55,7 @@
 <article class="profileBox">
 <h1 class="title">
         This is the profil of {{ name }}
-        {%if user_by_name[name]['id'] not in following%}
+        {%if not isfollowing%}
         <small><a class="followButton" href="{{ url_for('main.follow_someone', uid2 = user_by_name[name]['id']) }}">Follow</a></small>
         {%endif%}
 </h1>

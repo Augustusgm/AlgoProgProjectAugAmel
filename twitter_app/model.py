@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, current_app, g
 import click
 from flask_sqlalchemy import SQLAlchemy
-from . import db
+from . import db, user_by_name,user_by_id,follows
 import networkx as nx
 from os.path import exists
 
@@ -53,7 +53,7 @@ def init_appp(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
     
-def init_user_by_name(user_by_name):
+def init_user_by_name():
     if exists('instance/twitter.sqlite') :
         user = User.query.all()
         for u in user:
@@ -63,14 +63,14 @@ def init_user_by_name(user_by_name):
                 'email':u.email
                 }
             
-def update_user_by_name(user_by_name, username, user):
+def update_user_by_name( username, user):
         user_by_name[username] =  {
                 'id':user.id,
                 'username':user.username,
                 'email':user.email
                 }
         
-def init_user_by_id(user_by_id):
+def init_user_by_id():
     if exists('instance/twitter.sqlite') :
         user = User.query.all()
         for u in user:
@@ -80,23 +80,28 @@ def init_user_by_id(user_by_id):
                 'email':u.email
                 }
             
-def update_user_by_id(user_by_id, id, user):
+def update_user_by_id(id, user):
         user_by_id[id] =  {
                 'id':user.id,
                 'username':user.username,
                 'email':user.email
                 }
         
-def init_follow_graph(graph):
+def init_follow_graph():
     if exists('instance/twitter.sqlite') :
         fol = Follow.query.with_entities(Follow.uid1,Follow.uid2).all()
         for f in fol:
-            graph.add_edge(f.uid1,f.uid2)
+            follows.add_edge(f.uid1,f.uid2)
         #graph.add_edges_from(fol)
     
     
-def update_follow_graph(graph, uid1, uid2):
-    graph.add_edge(uid1,uid2)
+def update_follow_graph(uid1, uid2):
+    uid2 = int(uid2)
+    follows.add_edge(uid1,uid2)
+    
+def del_follow_graph(uid1, uid2):
+    uid2 = int(uid2)
+    follows.remove_edge(uid1,uid2)
     
     
 @click.command('init-db')
@@ -139,17 +144,6 @@ def users(user_id = 0):
         db.session.delete(user)
         db.session.commit()
         return jsonify({}), 200
-
-        
-@model.route("/api/users/follows", methods=["GET", "POST", "DELETE"])
-def follows(user_id, follows):
-    if request.method == 'GET':#We will use a hashmap in the form of python sets to get fast access in average O(1)
-        pass
-    if request.method == 'POST':
-        pass
-    if request.method == 'DELETE':
-        pass
-    
     
     
 @model.route("/api/tweets", methods=["GET", "POST", "DELETE"])
