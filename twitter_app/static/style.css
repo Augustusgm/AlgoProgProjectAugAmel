@@ -369,18 +369,21 @@
 {
   font-weight: bold;
   font-family: arial;
-  background-color:#657786;
-  color: white;
+  background-color:#c9d8e3;
+  color: #3c464d;
   padding: 1% 1%;
-  text-align: center;
+  text-align: left;
   text-decoration: none;
   display: inline-block;
   border-radius: 13px 13px 13px 13px;
   margin: 1%;
+  padding-left: 2%;
+  width: 20%;
 }
 
 .about:hover, .about:active {
-  background-color: #14171A;
+  background-color: #3c464d;
+  color: #c9d8e3;
 }
 
 .followButton
