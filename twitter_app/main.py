@@ -89,7 +89,7 @@ def find_tweet(research):
         if g.user.id in follows:
             f = list(map(int, follows.neighbors(g.user.id)))
             following += f
-    return render_template('find_tweet.html', tweets = tweets, user = user, isUser = isUser, following = following, user_by_id = user_by_id)
+    return render_template('find_tweet.html', tweets = tweets, user = user, isUser = isUser, following = following, user_by_id = user_by_id, research=research)
 
 
 @main.route('/profile')
