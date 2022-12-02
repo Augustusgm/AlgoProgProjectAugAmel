@@ -18,14 +18,14 @@ def index():
         if g.user.id in follows:
             f = list(map(int, follows.neighbors(g.user.id)))
             following += f
-            print(following)
     tweets = Tweet.query.order_by(Tweet.id.desc()).all()
     return render_template('index.html', tweets = tweets,user = user, isUser = isUser, following = following, user_by_id = user_by_id)
 
-@main.route('/follow_someone/<uid2>')
+@main.route('/follow_someone/<isFrom>/<int:uid2>/<argument>')
 @login_required
-def follow_someone(uid2):
-    isFrom = "index"
+def follow_someone(isFrom, uid2, argument):
+    if isFrom == "home":
+        isFrom = "index"
     uid1 = g.user.id
     if Follow.query.filter_by(uid1 = uid1).filter_by(uid2 = uid2).first():
         return redirect(url_for(f'main.{isFrom}'))
@@ -33,13 +33,15 @@ def follow_someone(uid2):
     db.session.add(new_follow)
     db.session.commit()
     update_follow_graph( uid1, uid2)
-    print(uid1, ' now follows ', uid2)
-    return redirect(url_for(f'main.{isFrom}'))
+    if argument == "error":
+        return redirect(url_for(f'main.{isFrom}'))
+    return redirect(url_for(f'main.{isFrom}', user = argument))
 
-@main.route('/unfollow_someone/<uid2>')
+@main.route('/unfollow_someone/<isFrom>/<int:uid2>/<argument>')
 @login_required
-def unfollow_someone(uid2):
-    isFrom = "index"
+def unfollow_someone(isFrom, uid2, argument):
+    if isFrom == "home":
+        isFrom = "index"
     uid1 = g.user.id
     if not Follow.query.filter_by(uid1 = uid1).filter_by(uid2 = uid2).first():
         return redirect(url_for(f'main.{isFrom}'))
@@ -47,9 +49,9 @@ def unfollow_someone(uid2):
     unfollow = Follow.query.filter_by(uid1 = uid1).filter_by(uid2 = uid2).first()
     db.session.delete(unfollow)
     db.session.commit()
-    print(uid1, ' no longer follows ', uid2)
-    return redirect(url_for(f'main.{isFrom}'))
-    
+    if argument == "error":
+        return redirect(url_for(f'main.{isFrom}'))
+    return redirect(url_for(f'main.{isFrom}', user = argument))
 
 @main.route('/find_someone/<isFrom>', methods=['POST'])
 def find_someone(isFrom):
@@ -77,7 +79,6 @@ def profile():
     f = []
     if g.user.id in follows:
             f = list(map(int, follows.neighbors(g.user.id)))
-            print(f)
     return render_template('profile.html', name=g.user.username, tweets = tweets, following = f, user_by_id = user_by_id)
 
 @main.route('/user_profile/<user>')

@@ -74,6 +74,7 @@
   {% for follow in following %}
   <div>
     <a class="about" href="{{ url_for('main.user_profile', user = user_by_id[follow]['username']) }}"  > {{ user_by_id[follow]['username'] }}</a>
+    <a class="unfollowButton" href="{{ url_for('main.unfollow_someone', isFrom="profile", argument = "error", uid2 = follow) }}">Unfollow</a>
   </div>
     {% endfor %}
 

@@ -68,9 +68,9 @@
     <p class="body">{{ tweet.content }}</p>
     <a class="about" href="{{ url_for('main.user_profile', user = user_by_id[tweet.uid]['username']) }}"> by {{user_by_id[tweet.uid]['username']}}</a>
     {%if tweet.uid not in following%}
-    <a class="followButton" href="{{ url_for('main.follow_someone', uid2 = tweet.uid) }}">Follow</a>
+    <a class="followButton" href="{{ url_for('main.follow_someone', isFrom="home", argument = "error", uid2 = tweet.uid) }}">Follow</a>
     {%elif tweet.uid != user%}
-    <a class="unfollowButton" href="{{ url_for('main.unfollow_someone', uid2 = tweet.uid) }}">Unfollow</a>
+    <a class="unfollowButton" href="{{ url_for('main.unfollow_someone', isFrom="home" , argument = "error", uid2 = tweet.uid) }}">Unfollow</a>
     {%endif%}
   </article>
 {% endfor %}

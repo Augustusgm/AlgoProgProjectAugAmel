@@ -96,11 +96,9 @@ def init_follow_graph():
     
     
 def update_follow_graph(uid1, uid2):
-    uid2 = int(uid2)
     follows.add_edge(uid1,uid2)
     
 def del_follow_graph(uid1, uid2):
-    uid2 = int(uid2)
     follows.remove_edge(uid1,uid2)
     
     
