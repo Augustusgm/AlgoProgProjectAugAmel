@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 
+<link rel="shortcut icon" href="{{ url_for('static', filename='twitter.ico') }}">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,19 +17,6 @@
     <table>
       <tr>
         <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="20%" alt="twitter logo"> </a></td>
-        <td> 
-          {% with messages = get_flashed_messages() %}
-          {% if messages %}
-              <div class="notification is-danger">
-                  {{ messages[0] }}
-              </div>
-          {% endif %}
-          {% endwith %}
-          <form action="/find_someone/index" method="post">
-          <input class="bouton4" name="username"  placeholder="Research" id="username" value="{{ request.form['username'] }}">
-          <input class="bouton5" type="submit" placeholder="Username" value="Username">
-          </action>
-        </td>
         <td> <a href="{{ url_for('main.profile') }}"  > 
             <p class="bouton1"> Profile </p></a>
         </td>
@@ -41,7 +30,6 @@
 <article class="centerBoxd">
   <p class="indent"> My Feed </p>
     {% for tweet in tweets %}
-    {% if tweet.uid in following %}
     <article class="box">
       <header>
         <div>
@@ -50,11 +38,12 @@
       </header>
       <p class="body">{{ tweet.content }}</p>
       <a class="about" href="{{ url_for('main.user_profile', user = user_by_id[tweet.uid]['username']) }}"> by {{user_by_id[tweet.uid]['username']}}</a>
-      <a class="followButton" href="{{ url_for('main.follow_someone', uid2 = tweet.uid, isFrom = "home") }}">Follow</a>
+      {%if tweet.uid != user%}
+      <a class="unfollowButton" href="{{ url_for('main.unfollow_someone', uid2 = tweet.uid, isFrom="feed", argument = "error",) }}">Unfollow</a>
+      {%endif%}
     </article>
-  {%endif%}
   {% endfor %}
-  
+</article>  
   
       
   </body>

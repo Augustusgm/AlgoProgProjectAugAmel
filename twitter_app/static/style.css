@@ -25,7 +25,6 @@
   text-align: center;
   border-radius: 13px 13px 13px 13px;
   font-weight: normal;
-  position: relative;
   width: 202px;
   left : 25%;
   padding: 6px 27px 6px 12px;
@@ -39,19 +38,39 @@
   line-height: 39px;
   color: white;
   border-radius: 13px 13px 13px 13px;
-  background-color: #AAB8C2;
-  margin: 0 auto;
+  background-color: #657786;
+  margin-left: auto;
   display: inline-block;
   border: none;
   text-decoration: none;
   text-align: center;
-  font-weight: normal;
-  position: relative;
-  left : 10%;
+  font-weight: bold;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2) inset;
 }
 .bouton5:hover, .bouton5:active {
-  background-color: #657786  ;
+  background-color: #AAB8C2  ;
+  color: #3d4850;
+}
+
+.bouton6
+{ 
+  font-family : arial;
+  font-size: 16px;
+  line-height: 39px;
+  color: white;
+  border-radius: 13px 13px 13px 13px;
+  background-color: #657786;
+  margin-left:0%;
+  display: inline-block;
+  border: none;
+  text-decoration: none;
+  text-align: center;
+  font-weight: bold;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.2) inset;
+}
+.bouton6:hover, .bouton6:active {
+  background-color: #AAB8C2  ;
+  color:#3d4850;
 }
 
 .bouton3
@@ -161,7 +180,7 @@
   font-family: arial;
   width: 96%;
   border-radius: 13px 13px 13px 13px;
-  margin-top:auto;
+  margin-top:2%;
   margin-left: auto;
   margin-right: auto;
   padding: 2% 2% 2% 2%;

@@ -17,20 +17,6 @@
         <table>
           <tr>
             <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="20%" alt="twitter logo"> </a></td>
-            <td> 
-              {% with messages = get_flashed_messages() %}
-              {% if messages %}
-                  <div class="notification is-danger">
-                      {{ messages[0] }}
-                  </div>
-              {% endif %}
-              {% endwith %}
-              <form action="find/index" method="post">
-              <input class="bouton4" name="research"  placeholder="Research" id="research" value="{{ request.form['research'] }}">
-              <input class="bouton5" name = 'action' type="submit" placeholder="Username" value="Username">
-              <input class="bouton6" name = 'action' type="submit" placeholder="Tweet" value="Tweet">
-              </action>
-            </td>
             {% if isUser %}
             <td> <a href="{{ url_for('main.feed') }}"  > 
               <p class="bouton3"> My Feed </p></a> 
@@ -58,10 +44,7 @@
 <br>
 
 
-<a class="indent1" href="{{ url_for('main.tweet') }}">New Tweet</a>
-
-
-<article class="centerBox">
+<article class="centerBoxd">
 {% for tweet in tweets %}</p>
   <article class="box">
     <header>

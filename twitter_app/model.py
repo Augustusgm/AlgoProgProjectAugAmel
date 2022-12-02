@@ -1,9 +1,11 @@
 from flask import Blueprint, jsonify, request, current_app, g
 import click
 from flask_sqlalchemy import SQLAlchemy
-from . import db, user_by_name,user_by_id,follows
+from . import db, user_by_name,user_by_id,follows, tweet_find
 import networkx as nx
 from os.path import exists
+from collections import deque
+
 
 model = Blueprint('model', __name__)
 
@@ -86,6 +88,27 @@ def update_user_by_id(id, user):
                 'username':user.username,
                 'email':user.email
                 }
+        
+def init_tweet_find():
+    if exists('instance/twitter.sqlite') :
+        tweets = Tweet.query.all()
+        for tweet in tweets:
+            sentence = tweet.title + ' ' + tweet.content
+            l_sentence = sentence.lower().split()
+            for l in l_sentence:
+                if l in tweet_find:
+                    tweet_find[l].appendleft(tweet.id)
+                else:
+                    tweet_find[l] = deque([tweet.id], maxlen=100)
+            
+def update_tweet_find(tweet):
+        sentence = tweet.title + ' ' + tweet.content
+        l_sentence = sentence.lower().split()
+        for l in l_sentence:
+            if l in tweet_find:
+                tweet_find[l].appendleft(tweet.id)
+            else:
+                tweet_find[l] = deque([tweet.id], maxlen=100)
         
 def init_follow_graph():
     if exists('instance/twitter.sqlite') :

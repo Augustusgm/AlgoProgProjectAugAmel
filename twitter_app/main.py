@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, Blueprint, render_template, redirect, url_for,session, request, current_app, flash, g
 from .auth import login_required
 from .model import User, Tweet, Follow
-from . import db, user_by_name,user_by_id,follows
+from . import db, user_by_name,user_by_id,follows, tweet_find
 import networkx as nx
-from .model import update_follow_graph, del_follow_graph
+from .model import update_follow_graph, del_follow_graph, update_tweet_find
 main = Blueprint('main', __name__)
 
 @main.route('/')
@@ -53,23 +53,43 @@ def unfollow_someone(isFrom, uid2, argument):
         return redirect(url_for(f'main.{isFrom}'))
     return redirect(url_for(f'main.{isFrom}', user = argument))
 
-@main.route('/find_someone/<isFrom>', methods=['POST'])
-def find_someone(isFrom):
-    username = request.form['username']
-    if username in user_by_name:
-        return redirect(url_for('main.user_profile', user = username))
+@main.route('/find/<isFrom>', methods=['POST'])
+def find(isFrom):
+    research = request.form['research']
+    if request.form['action'] == 'Username':
+        return redirect(url_for('main.find_someone', research = research, isFrom = isFrom))
+    elif request.form['action'] == 'Tweet':
+        return redirect(url_for('main.find_tweet', research = research ))
+    return redirect(url_for(f'main.{isFrom}'))
+
+@main.route('/find_someone/<research>/<isFrom>')
+def find_someone(research, isFrom):
+    if research in user_by_name:
+        return redirect(url_for('main.user_profile', user = research))
     flash('this username does not exist')
     return redirect(url_for(f'main.{isFrom}'))
 
-@main.route('/find_tweet', methods=['POST'])
-def find_tweet():
-    sentence = request.form['sentence']
-    l_sentence = sentence.lower().split()
-    tweets = Tweet.query.order_by(Tweet.id.desc()).all()
-    F_tweets = {}
-    for tweet in tweets:
-        pass #use bloom filter
-    return render_template('find_tweet.html', F_tweets)
+@main.route('/find_tweet/<research>')
+def find_tweet(research):
+    l_sentence = research.lower().split()
+    final_tweets = []
+    for l in l_sentence:
+        if l in tweet_find:
+            for t in tweet_find[l]:
+                final_tweets.append(t)
+    if len(final_tweets) < 10 :
+        pass #extend search
+    tweets = Tweet.query.filter(Tweet.id.in_(final_tweets)).order_by(Tweet.id.desc()).all()
+    isUser = False
+    user = False
+    if g.user:
+        isUser = True
+        following = [g.user.id]
+        user = g.user.id
+        if g.user.id in follows:
+            f = list(map(int, follows.neighbors(g.user.id)))
+            following += f
+    return render_template('find_tweet.html', tweets = tweets, user = user, isUser = isUser, following = following, user_by_id = user_by_id)
 
 
 @main.route('/profile')
@@ -120,22 +140,18 @@ def tweet_post():
         title = request.form['title']
         content = request.form['content']
         new_tweet = Tweet(title=title, content=content, uid = g.user.id )
-
         db.session.add(new_tweet)
         db.session.commit()
+        update_tweet_find(new_tweet)
     return redirect(url_for('main.index'))
 
 @main.route('/feed')
 @login_required
 def feed():
-    isUser = False
-    following = []
-    if g.user:
-        isUser = True
-        following = [g.user.id]
-        if g.user.id in follows:
-            f = list(map(int, follows.neighbors(g.user.id)))
-            following += f
-            print(following)
-    tweets = Tweet.query.order_by(Tweet.id.desc()).all()
-    return render_template('feed.html', name=g.user.username, tweets = tweets, user_by_id = user_by_id, following = following)
+    following = [g.user.id]
+    if g.user.id in follows:
+        f = list(map(int, follows.neighbors(g.user.id)))
+        following += f
+        print(following)
+    tweets = Tweet.query.filter(Tweet.uid.in_(following)).order_by(Tweet.id.desc()).all()
+    return render_template('feed.html', name=g.user.username,user = g.user.id, tweets = tweets, user_by_id = user_by_id, following = following)
