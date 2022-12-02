@@ -398,6 +398,8 @@
   display: inline-block;
   border-radius: 13px 13px 13px 13px;
   margin: 0 auto;
+  padding-left: 3%;
+  padding-right: 3%;
 }
 
 .followButton:hover, .followButton:active {
@@ -416,6 +418,8 @@
   display: inline-block;
   border-radius: 13px 13px 13px 13px;
   margin: 0 auto;
+  padding-left: 1.5%;
+  padding-right: 1.5%;
 }
 
 .unfollowButton:hover, .unfollowButton:active {
