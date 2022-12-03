@@ -5,6 +5,7 @@ from . import db, user_by_name,user_by_id,follows, tweet_find, tweet_likes
 import networkx as nx
 from os.path import exists
 from collections import deque
+import json
 
 
 model = Blueprint('model', __name__)
@@ -125,8 +126,16 @@ def del_follow_graph(uid1, uid2):
     follows.remove_edge(uid1,uid2)
     
 def init_like_tweet():
-    if exists('instance/twitter.sqlite') :
-        pass
+    if exists('instance/like_tweets.json') :
+        f = open('like_tweets.json', 'r')
+        tweet_likes.update(json.load(f))
+        f.close
+    
+def close_like_tweet():
+    f = open('like_tweets.json', 'w+')
+    json.dump(tweet_likes, f)
+    f.close
+    
 
 def update_like_tweet(uid, tid):
     if tid not in tweet_likes:
