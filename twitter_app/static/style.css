@@ -118,9 +118,31 @@
   background-color: #AAB8C2;
 }
 
+.bouton9
+{ 
+  font-family: arial;
+  font-size : 18px;
+  margin-top: 0px;
+  line-height: 12px;
+  font-weight: bold;
+  color: black;
+  position: absolute;
+  left : 67.5%;
+  background-color: #F5F8FA;
+  padding: 1% 1%;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 13px 13px 13px 13px;
+}
+
+.bouton9:hover, .bouton9:active {
+  background-color: #AAB8C2;
+}
+
 .countingL{
   font-family: arial;
-  line-height: 12px;
+  line-height: 15px;
   font-size: 80%;
   background-color: white;
   padding: 1% 1%;
@@ -133,6 +155,44 @@
   margin-bottom: 3px;
   inset-block-end: 2px;
 }
+
+.countingfriends{
+  font-family: arial;
+  font-weight: bold;
+  line-height: 20px;
+  font-size: 15px;
+  background-color: white;
+  padding: 1% 1%;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 20px;
+  border-style: none;
+  display: inline-block;
+  margin-bottom: 3px;
+  margin-left: 2%
+}
+
+.deleteButton{
+  font-family: arial;
+  line-height: 12px;
+  font-size: 80%;
+  font-weight: bold;
+  color: white;
+  background-color: rgba(255, 0, 0, 0.5);
+  padding: 1% 1%;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 20px;
+  border-style: none;
+  display: inline-flex;
+  float:right;
+  margin-bottom: 3px;
+  inset-block-end: 2px;
+}
+
+.deleteButton:hover, .deleteButton:active {
+  background-color: red;
+  }
 
 .likeButton {
   display: inline-flex;
@@ -454,12 +514,35 @@
   border-radius: 13px 13px 13px 13px;
   margin: 1%;
   padding-left: 2%;
-  width: 20%;
+  width: 25%;
 }
 
 .about:hover, .about:active {
   background-color: #3c464d;
   color: #c9d8e3;
+}
+
+.About
+{
+  font-weight: bold;
+  font-family: arial;
+  font-size: 20px;
+  background-color: rgb(255, 211, 211);
+  color: black;
+  padding: 1% 1%;
+  text-align: left;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 13px 13px 13px 13px;
+  margin: 1%;
+  margin-left: 3%;
+  padding-left: 2%;
+  width: 30%;
+}
+
+.About:hover, .About:active {
+  background-color: #1DA1F2;
+  color: white;
 }
 
 .followButton
@@ -599,7 +682,7 @@
 .friend {
   display: flex;
   font-family: arial;
-  width: 30%;
+  width: 20%;
   margin-left: 60%;
   margin-top: 4%;
   border-radius: 13px 13px 13px 13px;
@@ -609,6 +692,21 @@
   margin-right: 0px;
   position: center;
   display: block;
+  
+}
+
+.Friend {
+  font-family: arial;
+  width: 30%;
+  margin-top: 4%;
+  border-radius: 13px 13px 13px 13px;
+  height: auto;
+  padding: 2% 2% 2% 2%;
+  background-color: #E1E8ED;
+  margin-right: 0px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .people{

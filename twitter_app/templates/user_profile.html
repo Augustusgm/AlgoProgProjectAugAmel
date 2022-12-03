@@ -26,6 +26,9 @@
       <td> <a href="{{ url_for('auth.logout') }}"  > 
           <p class="bouton2"> Log-out </p></a> 
       </td>
+      <td> <a href="{{ url_for('main.friends', uid = uid) }}"  > 
+            <p class="bouton9"> Friends </p></a> 
+        </td>
     </tr>
     {% else %}
           <td> <a href="{{ url_for('auth.register') }}"  > 
@@ -34,8 +37,12 @@
           <td> <a href="{{ url_for('auth.login') }}"  > 
               <p class="bouton2"> Login </p></a>
           </td>
+          <td> <a href="{{ url_for('main.friends', uid = uid) }}"  > 
+            <p class="bouton3"> Friends </p></a> 
+        </td>
       </tr>
     {% endif %}
+
   </table>
 </div>
 

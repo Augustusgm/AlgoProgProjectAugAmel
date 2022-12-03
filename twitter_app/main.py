@@ -3,7 +3,7 @@ from .auth import login_required
 from .model import User, Tweet, Follow
 from . import db, user_by_name,user_by_id,follows, tweet_find, tweet_likes
 import networkx as nx
-from .model import update_follow_graph, del_follow_graph, update_tweet_find, update_like_tweet, del_like_tweet
+from .model import update_follow_graph, del_follow_graph, update_tweet_find, update_like_tweet, del_like_tweet, del_tweet_like_tweet
 main = Blueprint('main', __name__)
 
 @main.route('/')
@@ -122,7 +122,40 @@ def profile():
     f = []
     if g.user.id in follows:
             f = list(map(int, follows.neighbors(g.user.id)))
-    return render_template('profile.html', tweet_likes= tweet_likes, name=g.user.username, tweets = tweets, following = f, user_by_id = user_by_id)
+            pred = list(map(int, follows.predecessors(g.user.id)))        
+    return render_template('profile.html', pred = pred, tweet_likes= tweet_likes, name=g.user.username, myid =g.user.id, tweets = tweets, following = f, user_by_id = user_by_id)
+
+@main.route('/friends/<int:uid>')
+def friends(uid):
+    isUser = False
+    if g.user and g.user.id == uid:
+        isUser = True
+    follow_list = list(follows.edges())
+    connection_list = {}
+    people_with_friends = {}
+    the_friend_list = []
+    for i in range(len(follow_list)):
+        first, second = follow_list[i]
+        try:
+            if max(first,second) in connection_list[min(first,second)]:
+                if uid == first:
+                    the_friend_list.append(second)
+                if uid == second:
+                    the_friend_list.append(first)    
+                try:
+                    people_with_friends[first]+=1
+                except KeyError:
+                    people_with_friends[first]=1
+                try:
+                    people_with_friends[second]+=1
+                except KeyError:
+                    people_with_friends[second]=1
+            else:
+                connection_list[min(first,second)].append(max(first,second))
+        except KeyError:
+            connection_list[min(first,second)] = [max(first,second)]        
+    return render_template('friends.html', isUser = isUser, user_by_id = user_by_id, the_friend_list = the_friend_list, people_with_friends = people_with_friends, uid=uid)
+
 
 @main.route('/user_profile/<user>')
 def user_profile(user):
@@ -147,7 +180,7 @@ def user_profile(user):
         f = list(map(int, follows.neighbors(id_u)))
         following = f
     tweets = Tweet.query.filter_by(uid = id_u).order_by(Tweet.id.desc()).all()
-    return render_template('user_profile.html',tweet_likes= tweet_likes, me = me, name=user, tweets = tweets, user_by_id = user_by_id, user_by_name = user_by_name, following = following, Me_following=Me_following,  isfollowing = isfollowing, isUser = isUser)
+    return render_template('user_profile.html',uid = id_u, tweet_likes= tweet_likes, me = me, name=user, tweets = tweets, user_by_id = user_by_id, user_by_name = user_by_name, following = following, Me_following=Me_following,  isfollowing = isfollowing, isUser = isUser)
 
     
 
@@ -181,10 +214,10 @@ def feed():
     tweets = Tweet.query.filter(Tweet.uid.in_(following)).order_by(Tweet.id.desc()).all()
     return render_template('feed.html',tweet_likes= tweet_likes, name=g.user.username,user = g.user.id, tweets = tweets, user_by_id = user_by_id, following = following)
 
-@main.route('/profile', methods=['DELETE'])
-def tweet_delete(id):
-    if request.method == 'DELETE':
-        tweet = Tweet.query.filter_by(id = id).first()
-        db.session.delete(tweet)
-        db.session.commit()
+@main.route('/profile/<int:tid>')
+def tweet_delete(tid):
+    tweet = Tweet.query.filter_by(id = tid).first()
+    db.session.delete(tweet)
+    db.session.commit()
+    del_tweet_like_tweet(tid)
     return redirect(url_for('main.profile'))

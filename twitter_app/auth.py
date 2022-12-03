@@ -56,6 +56,7 @@ def register_post():
 @auth.route('/logout')
 def logout():
     session.clear()
+    model.close_like_tweet()
     return redirect(url_for('main.index'))
 
 @auth.before_app_request

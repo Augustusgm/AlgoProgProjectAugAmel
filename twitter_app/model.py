@@ -127,12 +127,12 @@ def del_follow_graph(uid1, uid2):
     
 def init_like_tweet():
     if exists('instance/like_tweets.json') :
-        f = open('like_tweets.json', 'r')
+        f = open('instance/like_tweets.json', 'r')
         tweet_likes.update(json.load(f))
         f.close
     
 def close_like_tweet():
-    f = open('like_tweets.json', 'w+')
+    f = open('instance/like_tweets.json', 'w+')
     json.dump(tweet_likes, f)
     f.close
     
@@ -147,6 +147,9 @@ def del_like_tweet(uid, tid):
     tweet_likes[tid].remove(uid)
     if len(tweet_likes[tid]):
         tweet_likes.pop(tid)
+        
+def del_tweet_like_tweet(tid):
+    tweet_likes.pop(tid, None)
     
 @click.command('init-db')
 def init_db_command():
@@ -156,7 +159,7 @@ def init_db_command():
     
            
  
-  
+""" THIS SECTION IS NOT USED 
 @model.route("/users", methods=["GET", "POST", "DELETE"])
 def users(user_id = 0):
     if request.method == 'GET':
@@ -221,4 +224,4 @@ def tweets(tweet_id = 0):
         db.session.delete(tweet)
         db.session.commit()
         return jsonify({}), 200
-    
+"""
