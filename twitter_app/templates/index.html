@@ -76,6 +76,16 @@
     {%elif tweet.uid != user%}
     <a class="unfollowButton" href="{{ url_for('main.unfollow_someone', isFrom="home" , argument = "error", uid2 = tweet.uid) }}">Unfollow</a>
     {%endif%}
+    {%if tweet.id in tweet_likes%}
+    <p class=countingL> {{tweet_likes[tweet.id]|length}} likes</p>
+    {%else%}
+    <p class=countingL>0 likes</p>
+    {%endif%}
+    {%if user in tweet_likes[tweet.id]%}
+    <a class="dislikeButton" href="{{ url_for('main.dislike_tweet', isFrom="home" , argument = "error", tid = tweet.id) }}">&#128153;</a>
+    {%else%}
+    <a class="likeButton" href="{{ url_for('main.like_tweet', isFrom="home" , argument = "error", tid = tweet.id) }}">&#128420;</a>
+    {%endif%}
   </article>
 {% endfor %}
 </article>

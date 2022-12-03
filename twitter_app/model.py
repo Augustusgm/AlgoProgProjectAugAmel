@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, request, current_app, g
 import click
 from flask_sqlalchemy import SQLAlchemy
-from . import db, user_by_name,user_by_id,follows, tweet_find
+from . import db, user_by_name,user_by_id,follows, tweet_find, tweet_likes
 import networkx as nx
 from os.path import exists
 from collections import deque
@@ -124,6 +124,20 @@ def update_follow_graph(uid1, uid2):
 def del_follow_graph(uid1, uid2):
     follows.remove_edge(uid1,uid2)
     
+def init_like_tweet():
+    if exists('instance/twitter.sqlite') :
+        pass
+
+def update_like_tweet(uid, tid):
+    if tid not in tweet_likes:
+        tweet_likes[tid] = [uid]
+    else:
+        tweet_likes[tid].append(uid)
+    
+def del_like_tweet(uid, tid):
+    tweet_likes[tid].remove(uid)
+    if len(tweet_likes[tid]):
+        tweet_likes.pop(tid)
     
 @click.command('init-db')
 def init_db_command():

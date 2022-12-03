@@ -12,6 +12,8 @@ global user_by_id
 user_by_id = {}
 global tweet_find
 tweet_find = {}
+global tweet_likes
+tweet_likes = {}
 
 def create_app():
     app = Flask(__name__)
@@ -34,7 +36,9 @@ def create_app():
         
     with app.app_context():
         model.init_tweet_find()
-         
+    
+    with app.app_context():
+        model.init_like_tweet()     
     # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)

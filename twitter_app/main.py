@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, Blueprint, render_template, redirect, url_for,session, request, current_app, flash, g
 from .auth import login_required
 from .model import User, Tweet, Follow
-from . import db, user_by_name,user_by_id,follows, tweet_find
+from . import db, user_by_name,user_by_id,follows, tweet_find, tweet_likes
 import networkx as nx
-from .model import update_follow_graph, del_follow_graph, update_tweet_find
+from .model import update_follow_graph, del_follow_graph, update_tweet_find, update_like_tweet, del_like_tweet
 main = Blueprint('main', __name__)
 
 @main.route('/')
@@ -19,7 +19,7 @@ def index():
             f = list(map(int, follows.neighbors(g.user.id)))
             following += f
     tweets = Tweet.query.order_by(Tweet.id.desc()).all()
-    return render_template('index.html', tweets = tweets,user = user, isUser = isUser, following = following, user_by_id = user_by_id)
+    return render_template('index.html', tweets = tweets, tweet_likes = tweet_likes, user = user, isUser = isUser, following = following, user_by_id = user_by_id)
 
 @main.route('/follow_someone/<isFrom>/<int:uid2>/<argument>')
 @login_required
@@ -52,6 +52,29 @@ def unfollow_someone(isFrom, uid2, argument):
     if argument == "error":
         return redirect(url_for(f'main.{isFrom}'))
     return redirect(url_for(f'main.{isFrom}', user = argument))
+
+@main.route('/like_tweet/<isFrom>/<int:tid>/<argument>')
+@login_required
+def like_tweet(isFrom, tid, argument):
+    if isFrom == "home":
+        isFrom = "index"
+    uid1 = g.user.id
+    update_like_tweet( uid1, tid)
+    if argument == "error":
+        return redirect(url_for(f'main.{isFrom}'))
+    return redirect(url_for(f'main.{isFrom}', user = argument))
+
+@main.route('/dislike_tweet/<isFrom>/<int:tid>/<argument>')
+@login_required
+def dislike_tweet(isFrom, tid, argument):
+    if isFrom == "home":
+        isFrom = "index"
+    uid1 = g.user.id
+    del_like_tweet( uid1, tid)
+    if argument == "error":
+        return redirect(url_for(f'main.{isFrom}'))
+    return redirect(url_for(f'main.{isFrom}', user = argument))
+
 
 @main.route('/find/<isFrom>', methods=['POST'])
 def find(isFrom):
@@ -99,7 +122,7 @@ def profile():
     f = []
     if g.user.id in follows:
             f = list(map(int, follows.neighbors(g.user.id)))
-    return render_template('profile.html', name=g.user.username, tweets = tweets, following = f, user_by_id = user_by_id)
+    return render_template('profile.html', tweet_likes= tweet_likes, name=g.user.username, tweets = tweets, following = f, user_by_id = user_by_id)
 
 @main.route('/user_profile/<user>')
 def user_profile(user):
@@ -109,8 +132,10 @@ def user_profile(user):
             return redirect(url_for('main.profile'))
     isUser = False
     isfollowing = False
+    me = False
     if g.user:
         isUser = True
+        me = g.user.id
         if follows.has_edge(g.user.id,id_u):
             isfollowing = True
     Me_following = []
@@ -122,7 +147,7 @@ def user_profile(user):
         f = list(map(int, follows.neighbors(id_u)))
         following = f
     tweets = Tweet.query.filter_by(uid = id_u).order_by(Tweet.id.desc()).all()
-    return render_template('user_profile.html', name=user, tweets = tweets, user_by_id = user_by_id, user_by_name = user_by_name, following = following, Me_following=Me_following,  isfollowing = isfollowing, isUser = isUser)
+    return render_template('user_profile.html',tweet_likes= tweet_likes, me = me, name=user, tweets = tweets, user_by_id = user_by_id, user_by_name = user_by_name, following = following, Me_following=Me_following,  isfollowing = isfollowing, isUser = isUser)
 
     
 
@@ -154,4 +179,4 @@ def feed():
         following += f
         print(following)
     tweets = Tweet.query.filter(Tweet.uid.in_(following)).order_by(Tweet.id.desc()).all()
-    return render_template('feed.html', name=g.user.username,user = g.user.id, tweets = tweets, user_by_id = user_by_id, following = following)
+    return render_template('feed.html', tweet_likes= tweet_likes, name=g.user.username,user = g.user.id, tweets = tweets, user_by_id = user_by_id, following = following)
