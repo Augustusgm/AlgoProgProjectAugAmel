@@ -180,3 +180,11 @@ def feed():
         print(following)
     tweets = Tweet.query.filter(Tweet.uid.in_(following)).order_by(Tweet.id.desc()).all()
     return render_template('feed.html',tweet_likes= tweet_likes, name=g.user.username,user = g.user.id, tweets = tweets, user_by_id = user_by_id, following = following)
+
+@main.route('/profile', methods=['DELETE'])
+def tweet_delete(id):
+    if request.method == 'DELETE':
+        tweet = Tweet.query.filter_by(id = id).first()
+        db.session.delete(tweet)
+        db.session.commit()
+    return redirect(url_for('main.profile'))
