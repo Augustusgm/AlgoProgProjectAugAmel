@@ -155,3 +155,4 @@ def feed():
         print(following)
     tweets = Tweet.query.filter(Tweet.uid.in_(following)).order_by(Tweet.id.desc()).all()
     return render_template('feed.html', name=g.user.username,user = g.user.id, tweets = tweets, user_by_id = user_by_id, following = following)
+
