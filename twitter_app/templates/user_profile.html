@@ -67,6 +67,16 @@
     </header>
     <p class="body">{{ tweet.content }}</p>
     <div class="about">by {{ name }} </div>
+    {%if tweet.id in tweet_likes%}
+    <p class=countingL> {{tweet_likes[tweet.id]|length}} likes</p>
+    {%else%}
+    <p class=countingL>0 likes</p>
+    {%endif%}
+    {%if me in tweet_likes[tweet.id]%}
+    <a class="dislikeButton" href="{{ url_for('main.dislike_tweet', isFrom="user_profile" , argument = name, tid = tweet.id) }}">&#128153;</a>
+    {%else%}
+    <a class="likeButton" href="{{ url_for('main.like_tweet', isFrom="user_profile" , argument = name, tid = tweet.id) }}">&#128420;</a>
+    {%endif%}
   </article>
   {% endfor %}
 

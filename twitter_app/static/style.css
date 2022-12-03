@@ -118,6 +118,63 @@
   background-color: #AAB8C2;
 }
 
+.countingL{
+  font-family: arial;
+  line-height: 12px;
+  font-size: 80%;
+  background-color: white;
+  padding: 1% 1%;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 20px;
+  border-style: none;
+  display: inline-flex;
+  float:right;
+  margin-bottom: 3px;
+  inset-block-end: 2px;
+}
+
+.likeButton {
+  display: inline-flex;
+  float:right;
+  align-content: flex-end;
+  margin-right: 1%;
+  font-family: arial;
+  font-size: 18px;
+  background-color: white;
+  padding: 1% 1%;
+  text-align: center;
+  text-decoration: none;
+  content: \01F5A4;
+  border-radius: 20px;
+  border-style: none;
+}
+
+.likeButton:hover, .likeButton:active {
+  background-color: #1da0f281;
+  content: \01F499;
+  }
+
+  .dislikeButton {
+    display: inline-flex;
+    float:right;
+    font-family: arial;
+    margin-right: 1%;
+    font-size: 18px;
+    background-color: white;
+    padding: 1% 1%;
+    text-align: center;
+    text-decoration: none;
+    content: \01F499;
+    border-radius: 20px;
+    border-style: none;
+  }
+  
+  .dislikeButton:hover, .dislikeButton:active {
+    background-color: rgb(169, 169, 169);
+    content: \02764;
+    }
+  
 .bouton2
 { 
   font-family: arial;
