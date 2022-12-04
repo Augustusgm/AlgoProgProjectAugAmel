@@ -9,3 +9,7 @@ initialize database si pas présent: ```flask --app twitter_app init-db```
 ## To run the app (in debug mode), run the following code from outside the twitter_app folder:
 
 run application in debug: ```flask --app twitter_app --debug run```
+
+
+
+### Note that to save which tweets you liked, you have to logout (this will be fixed/automatized when the app is launched on a server)

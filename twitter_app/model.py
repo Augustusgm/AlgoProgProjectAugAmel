@@ -86,15 +86,17 @@ def init_user_by_id():
                 'email':u.email
                 }
             
-def update_user_by_id(id, user):
-        user_by_id[id] =  {
-                'id':user.id,
-                'username':user.username,
-                'email':user.email
-                }
+def update_user_by_id(uid, user):
+    uid = int(uid)
+    user_by_id[uid] =  {
+            'id':user.id,
+            'username':user.username,
+            'email':user.email
+            }
         
-def del_user_by_id(id):
-        user_by_id.pop(id,None)
+def del_user_by_id(uid):
+    uid = int(uid)
+    user_by_id.pop(uid,None)
         
 def init_tweet_find():
     if exists('instance/twitter.sqlite') :
