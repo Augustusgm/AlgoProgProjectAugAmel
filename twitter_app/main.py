@@ -4,6 +4,8 @@ from .model import User, Tweet, Follow
 from . import db, user_by_name,user_by_id,follows, tweet_find, tweet_likes
 import networkx as nx
 from . import model
+from thefuzz import fuzz
+from thefuzz import process
 main = Blueprint('main', __name__)
 
 @main.route('/')
@@ -96,13 +98,27 @@ def find_someone(research, isFrom):
 def find_tweet(research):
     l_sentence = research.lower().split()
     final_tweets = []
+    final_tweets_a = []
+    more = False
     for l in l_sentence:
         if l in tweet_find:
             for t in tweet_find[l]:
                 final_tweets.append(t)
     if len(final_tweets) < 10 :
-        pass #extend search
+        
+        more = True
+        words_in_tweets = tweet_find.keys()
+        i = -1
+        while len(final_tweets_a)<10 and i<4:
+            i+=1
+            for l in l_sentence:
+                c= process.extract(l, words_in_tweets, limit=i+1)
+                word = c[i][0]
+                if word != l:
+                    for t in tweet_find[word]:
+                        final_tweets_a.append(t)
     tweets = Tweet.query.filter(Tweet.id.in_(final_tweets)).order_by(Tweet.id.desc()).all()
+    tweets_a = Tweet.query.filter(Tweet.id.in_(final_tweets_a)).order_by(Tweet.id.desc()).all()
     isUser = False
     user = False
     following = []
@@ -113,7 +129,7 @@ def find_tweet(research):
         if g.user.id in follows:
             f = list(map(int, follows.neighbors(g.user.id)))
             following += f
-    return render_template('find_tweet.html', tweets = tweets, user = user, isUser = isUser, following = following, user_by_id = user_by_id, research=research)
+    return render_template('find_tweet.html', tweets = tweets, tweets_a = tweets_a , more = more, user = user, isUser = isUser, following = following, user_by_id = user_by_id, research=research)
 
 
 @main.route('/profile')
