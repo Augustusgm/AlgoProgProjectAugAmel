@@ -11,3 +11,6 @@ initialize database si pas présent: ```flask --app twitter_app init-db```
 run application in debug: ```flask --app twitter_app --debug run```
 
 ### Note that to save which tweets you liked, you have to logout (this will be fixed/automatized when the app is launched on a server)
+
+
+### Password of generated profiles are the sameas their username for simplicity's sake and we can login with username - password
