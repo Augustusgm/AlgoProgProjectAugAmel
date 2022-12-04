@@ -122,10 +122,16 @@ def profile():
     tweets = Tweet.query.filter_by(uid = g.user.id).order_by(Tweet.id.desc()).all()
     f = []
     pred = []
+    doublepred = set()
     if g.user.id in follows:
-            f = list(map(int, follows.neighbors(g.user.id)))
-            pred = list(map(int, follows.predecessors(g.user.id)))        
-    return render_template('profile.html', pred = pred, tweet_likes= tweet_likes, name=g.user.username, myid =g.user.id, tweets = tweets, following = f, user_by_id = user_by_id)
+        f = list(map(int, follows.neighbors(g.user.id)))
+        pred = list(map(int, follows.predecessors(g.user.id))) 
+    if g.user.id in follows:
+        for predec in list(map(int, follows.predecessors(g.user.id))):
+            for i in list(map(int, follows.predecessors(predec))):
+                doublepred.add(i)
+    doublepred = list(doublepred)
+    return render_template('profile.html', doublepred = doublepred, pred = pred, tweet_likes= tweet_likes, name=g.user.username, myid =g.user.id, tweets = tweets, following = f, user_by_id = user_by_id)
 
 @main.route('/friends/<int:uid>')
 def friends(uid):

@@ -104,5 +104,25 @@
   
   </article>
 
+  <article class="friend">
+    <div>
+    <h1>
+      <p>These people follow someone that follows you </p>
+    </h1>
+    </div>
+    
+      {% for follow in doublepred %}
+      <div>
+        <a class="about" href="{{ url_for('main.user_profile', user = user_by_id[follow]['username']) }}"  > {{ user_by_id[follow]['username'] }}</a>
+        {%if follow not in following%}
+        <a class="followButton" href="{{ url_for('main.follow_someone', isFrom="profile", argument = "error", uid2 = follow) }}">Follow</a>
+        {%else%}
+        <a class="unfollowButton" href="{{ url_for('main.unfollow_someone', isFrom="profile", argument = "error", uid2 = follow) }}">Unfollow</a>
+        {%endif%}
+        </div>
+        {% endfor %}
+    
+    </article>
+
     </body>
 </html> 

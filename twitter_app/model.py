@@ -135,10 +135,7 @@ def del_follow_graph(uid1, uid2):
     
 def del_user_follow_graph(uid):
     uid = int(uid)
-    try:
-        follows.remove_node(uid)
-    except:
-        pass
+    follows.remove_node(uid)
     
 def init_like_tweet():
     if exists('instance/like_tweets') :
