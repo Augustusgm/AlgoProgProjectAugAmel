@@ -23,14 +23,14 @@ class User(db.Model):
 class Tweet(db.Model):
     __tablename__ = "tweet"
     id = db.Column(db.Integer, primary_key=True)
-    uid = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    uid = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
     title = db.Column(db.String(256))
     content = db.Column(db.String(2048))
     date = db.Column(db.Date)
     
 class Follow(db.Model):
-    uid1 = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, primary_key=True)
-    uid2 = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False, primary_key=True)
+    uid1 = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False, primary_key=True)
+    uid2 = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False, primary_key=True)
     
    
 def get_db():
