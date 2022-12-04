@@ -1,6 +1,6 @@
 # AlgoProgProjectAugAmel
 
-there are several python libraries necessary such as networkx, flask, flask_sqlalchemy, functools, werkzeug.security, click, essential_generators, thefuss[speedup]
+there are several python libraries necessary such as networkx, flask, flask_sqlalchemy, functools, werkzeug.security, click, essential_generators, thefuzz[speedup]
 
 ## If the data file is not there, run the following code from outside the twitter_app folder:
 
