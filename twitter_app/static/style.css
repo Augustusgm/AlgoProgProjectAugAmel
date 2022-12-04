@@ -399,6 +399,22 @@
   background-color: #AAB8C2  ;
 }
 
+.deleteBox {
+  position:center;
+  font-family: arial;
+  margin-top:2%;
+  font-size: 15px;
+  width: 50%;
+  border-radius: 13px 13px 13px 13px;
+  height:  15%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1% 1% 1% 1%;
+  /* border: 2px solid #AAB8C2
+  ;*/
+  background-color: #E1E8ED  ;
+}
+
 .TweetBox {
   position:center;
   font-family: arial;
@@ -514,7 +530,7 @@
   border-radius: 13px 13px 13px 13px;
   margin: 1%;
   padding-left: 2%;
-  width: 25%;
+  width: 35%;
 }
 
 .about:hover, .about:active {
@@ -679,6 +695,77 @@
   background-color: #657786  ;
 }
 
+.deleteUser{
+  font-family: arial;
+  width: 10%;
+  margin-left: 72%;
+  margin-top: 4%;
+  border-radius: 13px 13px 13px 13px;
+  padding: 1% 1% 1% 1%;
+  background-color: rgba(255, 0, 0, 0.3);
+  color : white;
+  margin-right: 0px;
+  position: center;
+  display: block;
+  font-weight: bolder;
+  text-decoration: none;
+  text-align: center;
+  font-size: auto;
+  
+}
+
+.deleteUser:hover, .deleteUser:active {
+  background-color: red  ;
+}
+
+.goBack{
+  font-family: arial;
+  width: 10%;
+  margin-top: 3%;
+  border-radius: 13px 13px 13px 13px;
+  padding: 2% 2% 2% 2%;
+  background-color:#1DA1F2;
+  color : white;
+  margin-right: 0px;
+  position: center;
+  display: inline-block;
+  margin-right: 2%;
+  font-weight: bolder;
+  text-decoration: none;
+  text-align: center;
+  font-size: auto;
+  
+}
+.goBack:hover, .goBack:active {
+  background-color: #0293ed  ;
+}
+.yesDelete{
+  font-family: arial;
+  width: 10%;
+  margin-top: 3%;
+  border-radius: 13px 13px 13px 13px;
+  padding: 2% 2% 2% 2%;
+  background-color: white;
+  color :#AAB8C2;
+  position: center;
+  display: inline-block;
+  margin-left: 2%;
+  margin-top: 3%;
+  font-weight: bolder;
+  text-decoration: none;
+  text-align: center;
+  font-size: auto;
+  
+}
+
+.yesDelete:hover, .yesDelete:active {
+  background-color: rgba(255, 0, 0, 0.608)  ;
+  color : white;
+}
+
+.centerDel {
+  text-align: center;
+}
 .friend {
   display: flex;
   font-family: arial;

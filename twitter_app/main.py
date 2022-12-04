@@ -3,7 +3,7 @@ from .auth import login_required
 from .model import User, Tweet, Follow
 from . import db, user_by_name,user_by_id,follows, tweet_find, tweet_likes
 import networkx as nx
-from .model import update_follow_graph, del_follow_graph, update_tweet_find, update_like_tweet, del_like_tweet, del_tweet_like_tweet
+from . import model
 main = Blueprint('main', __name__)
 
 @main.route('/')
@@ -32,7 +32,7 @@ def follow_someone(isFrom, uid2, argument):
     new_follow = Follow(uid1 = uid1, uid2 = uid2)
     db.session.add(new_follow)
     db.session.commit()
-    update_follow_graph( uid1, uid2)
+    model.update_follow_graph( uid1, uid2)
     if argument == "error":
         return redirect(url_for(f'main.{isFrom}'))
     return redirect(url_for(f'main.{isFrom}', user = argument))
@@ -45,7 +45,7 @@ def unfollow_someone(isFrom, uid2, argument):
     uid1 = g.user.id
     if not Follow.query.filter_by(uid1 = uid1).filter_by(uid2 = uid2).first():
         return redirect(url_for(f'main.{isFrom}'))
-    del_follow_graph(uid1, uid2)
+    model.del_follow_graph(uid1, uid2)
     unfollow = Follow.query.filter_by(uid1 = uid1).filter_by(uid2 = uid2).first()
     db.session.delete(unfollow)
     db.session.commit()
@@ -59,7 +59,7 @@ def like_tweet(isFrom, tid, argument):
     if isFrom == "home":
         isFrom = "index"
     uid1 = g.user.id
-    update_like_tweet( uid1, tid)
+    model.update_like_tweet( uid1, tid)
     if argument == "error":
         return redirect(url_for(f'main.{isFrom}'))
     return redirect(url_for(f'main.{isFrom}', user = argument))
@@ -70,7 +70,7 @@ def dislike_tweet(isFrom, tid, argument):
     if isFrom == "home":
         isFrom = "index"
     uid1 = g.user.id
-    del_like_tweet( uid1, tid)
+    model.del_like_tweet( uid1, tid)
     if argument == "error":
         return redirect(url_for(f'main.{isFrom}'))
     return redirect(url_for(f'main.{isFrom}', user = argument))
@@ -120,6 +120,7 @@ def find_tweet(research):
 def profile():
     tweets = Tweet.query.filter_by(uid = g.user.id).order_by(Tweet.id.desc()).all()
     f = []
+    pred = []
     if g.user.id in follows:
             f = list(map(int, follows.neighbors(g.user.id)))
             pred = list(map(int, follows.predecessors(g.user.id)))        
@@ -166,15 +167,15 @@ def user_profile(user):
     isUser = False
     isfollowing = False
     me = False
+    Me_following = []
     if g.user:
         isUser = True
         me = g.user.id
         if follows.has_edge(g.user.id,id_u):
             isfollowing = True
-    Me_following = []
-    if g.user.id in follows:
-        f = list(map(int, follows.neighbors(g.user.id)))
-        Me_following = f
+        if g.user.id in follows:
+            f = list(map(int, follows.neighbors(g.user.id)))
+            Me_following = f
     following = []
     if id_u in follows:
         f = list(map(int, follows.neighbors(id_u)))
@@ -200,7 +201,7 @@ def tweet_post():
         new_tweet = Tweet(title=title, content=content, uid = g.user.id )
         db.session.add(new_tweet)
         db.session.commit()
-        update_tweet_find(new_tweet)
+        model.update_tweet_find(new_tweet)
     return redirect(url_for('main.index'))
 
 @main.route('/feed')
@@ -215,9 +216,30 @@ def feed():
     return render_template('feed.html',tweet_likes= tweet_likes, name=g.user.username,user = g.user.id, tweets = tweets, user_by_id = user_by_id, following = following)
 
 @main.route('/profile/<int:tid>')
+@login_required
 def tweet_delete(tid):
     tweet = Tweet.query.filter_by(id = tid).first()
     db.session.delete(tweet)
     db.session.commit()
-    del_tweet_like_tweet(tid)
+    model.del_tweet_like_tweet(tid)
     return redirect(url_for('main.profile'))
+
+@main.route('/user_delete')
+@login_required
+def user_delete():
+    tweets = Tweet.query.filter_by(uid = g.user.id).all()
+    for tweet in tweets:
+        model.del_tweet_like_tweet(tweet.id)
+    user = User.query.filter_by(id = g.user.id).first()
+    db.session.delete(user)
+    db.session.commit()
+    model.del_user_like_tweet(g.user.id)
+    model.del_user_follow_graph(g.user.id)
+    model.del_user_by_name(g.user.username)
+    model.del_user_by_id(g.user.id)
+    return redirect(url_for('auth.logout'))
+
+@main.route('/ask_user_delete')
+@login_required
+def ask_user_delete():
+    return render_template('check_delete.html')

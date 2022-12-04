@@ -41,6 +41,9 @@
             <td> <a href="{{ url_for('auth.logout') }}"  > 
                 <p class="bouton2"> Log-out </p></a> 
             </td>
+            <td> <a href="{{ url_for('gen_data.generate') }}"  > 
+              <p class="bouton9"> Dev tool </p></a> 
+          </td>
           </tr>
           {% else %}
                 <td> <a href="{{ url_for('auth.register') }}"  > 
@@ -49,6 +52,9 @@
                 <td> <a href="{{ url_for('auth.login') }}"  > 
                     <p class="bouton2"> Login </p></a>
                 </td>
+                <td> <a href="{{ url_for('gen_data.generate') }}"  > 
+                  <p class="bouton3"> Dev tool </p></a> 
+              </td>
             </tr>
           {% endif %}
         </table>

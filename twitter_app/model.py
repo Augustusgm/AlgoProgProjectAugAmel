@@ -5,7 +5,7 @@ from . import db, user_by_name,user_by_id,follows, tweet_find, tweet_likes
 import networkx as nx
 from os.path import exists
 from collections import deque
-import json
+import pickle
 
 
 model = Blueprint('model', __name__)
@@ -73,6 +73,9 @@ def update_user_by_name( username, user):
                 'email':user.email
                 }
         
+def del_user_by_name(name):
+        user_by_name.pop(name,None)
+        
 def init_user_by_id():
     if exists('instance/twitter.sqlite') :
         user = User.query.all()
@@ -89,6 +92,9 @@ def update_user_by_id(id, user):
                 'username':user.username,
                 'email':user.email
                 }
+        
+def del_user_by_id(id):
+        user_by_id.pop(id,None)
         
 def init_tweet_find():
     if exists('instance/twitter.sqlite') :
@@ -125,31 +131,47 @@ def update_follow_graph(uid1, uid2):
 def del_follow_graph(uid1, uid2):
     follows.remove_edge(uid1,uid2)
     
+def del_user_follow_graph(uid):
+    try:
+        follows.remove_node(uid)
+    except:
+        pass
+    
 def init_like_tweet():
-    if exists('instance/like_tweets.json') :
-        f = open('instance/like_tweets.json', 'r')
-        tweet_likes.update(json.load(f))
+    if exists('instance/like_tweets') :
+        f = open('instance/like_tweets', 'rb')
+        tweet_likes.update(pickle.load(f))
         f.close
     
 def close_like_tweet():
-    f = open('instance/like_tweets.json', 'w+')
-    json.dump(tweet_likes, f)
+    f = open('instance/like_tweets', 'wb')
+    pickle.dump(tweet_likes, f)
     f.close
     
 
 def update_like_tweet(uid, tid):
+    tid = int(tid)
     if tid not in tweet_likes:
         tweet_likes[tid] = [uid]
     else:
         tweet_likes[tid].append(uid)
     
 def del_like_tweet(uid, tid):
+    tid = int(tid)
     tweet_likes[tid].remove(uid)
     if len(tweet_likes[tid]):
         tweet_likes.pop(tid)
         
 def del_tweet_like_tweet(tid):
+    tid = int(tid)
     tweet_likes.pop(tid, None)
+    
+def del_user_like_tweet(uid):
+    for tid in tweet_likes:
+        try:
+            tweet_likes[tid].remove(uid)
+        except ValueError:
+            pass
     
 @click.command('init-db')
 def init_db_command():

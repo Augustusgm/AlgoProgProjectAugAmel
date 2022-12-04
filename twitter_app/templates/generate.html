@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<link rel="shortcut icon" href="{{ url_for('static', filename='twitter.ico') }}">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+    <title>Generate data</title>
+</head>
+
+<body>
+    <div class="head1">
+        <table>
+          <tr>
+            <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="20%" alt="twitter logo"> </a></td>
+            {% if isUser %}
+            <td> <a href="{{ url_for('main.feed') }}"  > 
+              <p class="bouton3"> My Feed </p></a> 
+            </td>
+            <td> <a href="{{ url_for('main.profile') }}"  > 
+                <p class="bouton1"> Profile </p></a>
+            </td>
+            <td> <a href="{{ url_for('auth.logout') }}"  > 
+                <p class="bouton2"> Log-out </p></a> 
+            </td>
+          </tr>
+          {% else %}
+                <td> <a href="{{ url_for('auth.register') }}"  > 
+                    <p class="bouton1"> Register </p></a>
+                </td>
+                <td> <a href="{{ url_for('auth.login') }}"  > 
+                    <p class="bouton2"> Login </p></a>
+                </td>
+            </tr>
+          {% endif %}
+        </table>
+    </div>
+
+
+    <td> 
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form action="/generate_post" method="post">
+        <input class="bouton4" name="research"  placeholder="Number of ... to generate" id="research" value="{{ request.form['research'] }}">
+        <input class="bouton5" name = 'action' type="submit" placeholder="Users" value="Users">
+        <input class="bouton6" name = 'action' type="submit" placeholder="Tweets" value="Tweets">
+        <input class="bouton6" name = 'action' type="submit" placeholder="Follows" value="Follows">
+        <input class="bouton6" name = 'action' type="submit" placeholder="Likes" value="Likes">
+        </action>
+      </td>
+
+
+
+    
+</body>
+</html> 

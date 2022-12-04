@@ -38,7 +38,8 @@ def create_app():
         model.init_tweet_find()
     
     with app.app_context():
-        model.init_like_tweet()     
+        model.init_like_tweet()  
+           
     # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
@@ -50,4 +51,7 @@ def create_app():
     from .model import model as model_blueprint
     app.register_blueprint(model_blueprint)
 
+    from .gen_data import gen_data as gen_data_blueprint
+    app.register_blueprint(gen_data_blueprint)
+    
     return app
