@@ -159,7 +159,7 @@ def friends(uid):
                 connection_list[min(first,second)].add(max(first,second))
         except KeyError:
             connection_list[min(first,second)] = set()
-            connection_list[min(first,second)].add(max(first,second))        
+            connection_list[min(first,second)].add(max(first,second))
     return render_template('friends.html', isUser1 = isUser1, isUser2 = isUser2, user_by_id = user_by_id, the_friend_list = the_friend_list, people_with_friends = people_with_friends, uid=uid)
 
 
