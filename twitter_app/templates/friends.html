@@ -17,7 +17,7 @@
         <table>
           <tr>
             <td> <a href="{{ url_for('main.index') }}"  > <img src="{{ url_for('static', filename='t.png') }}" width="20%" alt="twitter logo"> </a></td>
-            {% if isUser %}
+            {% if isUser1 %}
             <td> <a href="{{ url_for('main.feed') }}"  > 
               <p class="bouton3"> My Feed </p></a> 
             </td>
@@ -45,7 +45,7 @@
 
 <article class="Friend">
     <div>
-    {%if isUser%}
+    {%if isUser2%}
     <h1>
         <p>Your friends </p>
     </h1>

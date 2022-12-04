@@ -128,9 +128,12 @@ def profile():
 
 @main.route('/friends/<int:uid>')
 def friends(uid):
-    isUser = False
-    if g.user and g.user.id == uid:
-        isUser = True
+    isUser1 = False
+    isUser2 = False
+    if g.user:
+        isUser1 = True
+    if g.user.id == uid:
+        isUser2 = True
     follow_list = list(follows.edges())
     connection_list = {}
     people_with_friends = {}
@@ -155,7 +158,7 @@ def friends(uid):
                 connection_list[min(first,second)].append(max(first,second))
         except KeyError:
             connection_list[min(first,second)] = [max(first,second)]        
-    return render_template('friends.html', isUser = isUser, user_by_id = user_by_id, the_friend_list = the_friend_list, people_with_friends = people_with_friends, uid=uid)
+    return render_template('friends.html', isUser1 = isUser1, isUser2 = isUser2, user_by_id = user_by_id, the_friend_list = the_friend_list, people_with_friends = people_with_friends, uid=uid)
 
 
 @main.route('/user_profile/<user>')
