@@ -40,7 +40,10 @@
         </table>
     </div>
 
-
+    <article class="deleteBox">
+        <h1 class="title">
+          Input the amount you want to generate, it is best to generate from user to likes.
+        </h1>
     <td> 
         {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -50,13 +53,14 @@
         {% endif %}
         {% endwith %}
         <form action="/generate_post" method="post">
-        <input class="bouton4" name="research"  placeholder="Number of ... to generate" id="research" value="{{ request.form['research'] }}">
+        <input class="bouton10" name="research"  placeholder="Number of ... to generate" id="research" value="{{ request.form['research'] }}">
         <input class="bouton5" name = 'action' type="submit" placeholder="Users" value="Users">
         <input class="bouton6" name = 'action' type="submit" placeholder="Tweets" value="Tweets">
         <input class="bouton6" name = 'action' type="submit" placeholder="Follows" value="Follows">
         <input class="bouton6" name = 'action' type="submit" placeholder="Likes" value="Likes">
         </action>
       </td>
+      </article
 
 
 
