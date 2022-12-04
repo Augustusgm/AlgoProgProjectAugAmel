@@ -113,7 +113,7 @@ def find_tweet(research):
                 c= process.extract(l, words_in_tweets, limit=i+1)
                 word = c[i][0]
                 score = c[i][1]
-                if word != l and score>0.9:
+                if word != l and score>0.95:
                     for t in tweet_find[word]:
                         final_tweets_a.append(t)
         if len(final_tweets_a)>0:
