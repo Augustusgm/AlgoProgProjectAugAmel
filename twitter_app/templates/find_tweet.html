@@ -46,7 +46,9 @@
 
 <article class="centerBoxd">
 {% if not(tweets) %}
-<h1> There is no tweet containing {{research}} </h1>
+<h1> There is no tweet containing "{{research}}" </h1>
+{%else%}
+<h1> Here are tweets containing "{{research}}" </h1>
 {%endif%}
 {% for tweet in tweets %}
   <article class="box">
