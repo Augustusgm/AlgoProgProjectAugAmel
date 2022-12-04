@@ -105,6 +105,7 @@ def find_tweet(research):
     tweets = Tweet.query.filter(Tweet.id.in_(final_tweets)).order_by(Tweet.id.desc()).all()
     isUser = False
     user = False
+    following = []
     if g.user:
         isUser = True
         following = [g.user.id]
