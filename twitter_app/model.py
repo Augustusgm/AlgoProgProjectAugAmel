@@ -157,6 +157,7 @@ def update_like_tweet(uid, tid):
         tweet_likes[tid].append(uid)
     
 def del_like_tweet(uid, tid):
+    uid = int(uid)
     tid = int(tid)
     tweet_likes[tid].remove(uid)
     if len(tweet_likes[tid]):
