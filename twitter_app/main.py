@@ -105,8 +105,6 @@ def find_tweet(research):
             for t in tweet_find[l]:
                 final_tweets.append(t)
     if len(final_tweets) < 10 :
-        
-        more = True
         words_in_tweets = tweet_find.keys()
         i = -1
         while len(final_tweets_a)<10 and i<4:
@@ -114,9 +112,12 @@ def find_tweet(research):
             for l in l_sentence:
                 c= process.extract(l, words_in_tweets, limit=i+1)
                 word = c[i][0]
-                if word != l:
+                score = c[i][1]
+                if word != l and score>0.9:
                     for t in tweet_find[word]:
                         final_tweets_a.append(t)
+        if len(final_tweets_a)>0:
+            more = True
     tweets = Tweet.query.filter(Tweet.id.in_(final_tweets)).order_by(Tweet.id.desc()).all()
     tweets_a = Tweet.query.filter(Tweet.id.in_(final_tweets_a)).order_by(Tweet.id.desc()).all()
     isUser = False
