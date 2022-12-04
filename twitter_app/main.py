@@ -133,8 +133,8 @@ def friends(uid):
     isUser2 = False
     if g.user:
         isUser1 = True
-    if g.user.id == uid:
-        isUser2 = True
+        if g.user.id == uid:
+            isUser2 = True
     follow_list = list(follows.edges())
     connection_list = {}
     people_with_friends = {}
