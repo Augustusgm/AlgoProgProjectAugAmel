@@ -160,7 +160,7 @@ def del_like_tweet(uid, tid):
     uid = int(uid)
     tid = int(tid)
     tweet_likes[tid].remove(uid)
-    if len(tweet_likes[tid]):
+    if len(tweet_likes[tid])==0:
         tweet_likes.pop(tid)
         
 def del_tweet_like_tweet(tid):
